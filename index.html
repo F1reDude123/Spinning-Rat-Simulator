@@ -117,6 +117,7 @@
   	localStorage.setItem("rat time", Number(localStorage.getItem("rat time"))+1);
     if (localStorage.getItem("hunger") != "0") localStorage.setItem("hunger", Number(localStorage.getItem("hunger"))-1);
     document.getElementById("hunger").style.height=localStorage.getItem("hunger");
+    document.getElementById("hp").style.height=localStorage.getItem("hp");
     if (localStorage.getItem("hunger") == "0") {
       localStorage.setItem("hp", Number(localStorage.getItem("hp"))-10);
     }
