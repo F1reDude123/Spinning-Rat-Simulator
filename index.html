@@ -1,0 +1,126 @@
+<title>spinning rat simulator</title>
+<style>
+  body {
+  	text-align:center;
+    font-family:cursive;
+  }
+</style>
+<body>
+  <h1>spinning rat simulator</h1>
+  <p>rat spins and adds rat time, e to eat rat, new rat every month, 1/10 chance of chad rat, punches when try to eat</p>
+  <div style="border:1px solid #000;padding:20px;" id="box"></div>
+  <p id="time">rat time</p>
+  <input type="range" oninput="speed=Number(this.value);this.nextElementSibling.innerText=`rat speed ${speed}`" min="1" max="100" value="5">
+  <p>rat speed 5</p>
+  <input type="range" oninput="distortion=Number(this.value);this.nextElementSibling.innerText=`rat distortion ${distortion-1}`;makeRat();" min="1" max="21" value="10">
+  <p>rat distortion 10</p>
+  <div style="background:#ed0;width:20px;height:100px;position:absolute;left:0;bottom:0;z-index:1;" id="hunger"></div>
+  <div style="background:#888;width:20px;height:100px;position:absolute;left:0;bottom:0;" id="hunger"></div>
+  <div style="background:#f00;width:20px;height:100px;position:absolute;right:0;bottom:0;z-index:1;" id="hp"></div>
+  <div style="background:#888;width:20px;height:100px;position:absolute;right:0;bottom:0;" id="hunger"></div>
+</body>
+<script>
+  // vars
+  var img;
+  var speed=5;
+  var distortion=10;
+  var rats = [];
+  
+  //localStorage checks
+  if (!localStorage.getItem("rats")) {
+  	localStorage.setItem("rats", "1");
+  }
+  if (!localStorage.getItem("bites")) {
+  	localStorage.setItem("bites", "");
+  }
+  if (!localStorage.getItem("rat time")) {
+  	localStorage.setItem("rat time", "0");
+  }
+  if (!localStorage.getItem("month")) {
+  	localStorage.setItem("month", new Date().getMonth());
+  }
+  if (!localStorage.getItem("hunger")) {
+  	localStorage.setItem("hunger", 100);
+  }
+  if (!localStorage.getItem("hp")) {
+  	localStorage.setItem("hp", 100);
+  }
+  
+  //month/genRat check
+  if (localStorage.getItem("month") != new Date().getMonth()) {
+  	localStorage.setItem("rats", Number(localStorage.getItem("rats"))+1);
+    genRats();
+  }
+  
+  //makeRat
+  function makeRat() {
+    var rat = new Image();
+    rat.onload = function() {
+      var canvas = document.createElement("canvas");
+      canvas.width = 320/distortion;
+      canvas.height = 160/distortion;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(rat, 0, 0, 320/distortion, 160/distortion);
+      localStorage.getItem("bites").split("\n").forEach(e => {
+      	ctx.clearRect(Number(e.slice(0, 2)), Number(e.slice(2, 4)), 320/distortion*0.1, 160/distortion*0.1);
+      });
+      var dataurl = canvas.toDataURL();
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      var bigRat = new Image();
+      bigRat.onload = function() {
+        canvas.width = 320;
+        canvas.height = 160;
+        ctx.drawImage(bigRat, 0, 0, 320, 160);
+        img=canvas.toDataURL();
+        genRats();
+      }
+      bigRat.src=dataurl;
+    }
+    rat.crossOrigin = "anonymous";
+    rat.src="https://streamline.imgix.net/9909d0de-9797-4416-97c3-b6f877e5307d/0620d072-4f32-47d2-8763-6be515a1fba4/Rattus%20rattus%20roof%20rat%20shutterstock_1528292471.jpg?ixlib=rb-1.1.0&w=2000&h=2000&fit=max&or=0&s=22791c3de05d6153495e76eff28ad71f";
+  }
+  makeRat();
+  
+  //genRats
+  function genRats() {
+  	document.getElementById("box").innerHTML="";
+    rats=[];
+  	for (var i=0;i<localStorage.getItem("rats");i++) {
+      var elem = document.createElement("img");
+      elem.src=img;
+      rats.push(elem);
+    }
+    rats.forEach(e=>{
+      document.getElementById("box").appendChild(e);
+    });
+  }
+  
+  //spinRat
+  var rot=0;
+  function spinRat(r) {
+  	rats.forEach(e=>{
+      e.style.transform=`rotateY(${r}deg)`;
+    });
+    document.getElementById("time").innerText = `rat time ${localStorage.getItem("rat time")}`;
+    rot+=speed;
+    requestAnimationFrame(()=>spinRat(rot));
+  }
+  requestAnimationFrame(()=>spinRat(rot));
+  
+  
+  //rat time
+  setInterval(function(){
+  	localStorage.setItem("rat time", Number(localStorage.getItem("rat time"))+1);
+    localStorage.setItem("hunger", Number(localStorage.getItem("hunger"))-1);
+    document.getElementById("hunger").style.height=localStorage.getItem("hunger");
+  }, 1000);
+  
+  
+  //eating logic
+  window.addEventListener("keydown", (e) => {
+  	if (e.key == "e") {
+      localStorage.setItem("bites", localStorage.getItem("bites")+`${Math.floor(Math.random()*(320/distortion)).toString().padStart(2, "0")}${Math.floor(Math.random()*(160/distortion)).toString().padStart(2, "0")}\n`);
+      makeRat();
+    }
+  });
+</script>
