@@ -43,9 +43,11 @@
   if (!localStorage.getItem("hunger")) {
   	localStorage.setItem("hunger", 100);
   }
+  localStorage.setItem("hunger", 100);
   if (!localStorage.getItem("hp")) {
   	localStorage.setItem("hp", 100);
   }
+  localStorage.setItem("hp", 100);
   
   //month/genRat check
   if (localStorage.getItem("month") != new Date().getMonth()) {
@@ -112,7 +114,7 @@
   //rat time
   setInterval(function(){
   	localStorage.setItem("rat time", Number(localStorage.getItem("rat time"))+1);
-    localStorage.setItem("hunger", Number(localStorage.getItem("hunger"))-1);
+    if (localStorage.getItem("hunger") != "0") localStorage.setItem("hunger", Number(localStorage.getItem("hunger"))-1);
     document.getElementById("hunger").style.height=localStorage.getItem("hunger");
   }, 1000);
   
@@ -121,7 +123,7 @@
   window.addEventListener("keydown", (e) => {
   	if (e.key == "e") {
       localStorage.setItem("bites", localStorage.getItem("bites")+`${Math.floor(Math.random()*(320/distortion)).toString().padStart(2, "0")}${Math.floor(Math.random()*(160/distortion)).toString().padStart(2, "0")}\n`);
-      localStorage.setItem("hunger", Number(localStorage.getItem("hunger"))+20);
+      localStorage.setItem("hunger", Number(localStorage.getItem("hunger"))+(Number(localStorage.getItem("hunger"))+20<=100 ? 20 : 100-Number(localStorage.getItem("hunger"))));
       makeRat();
     }
   });
