@@ -34,7 +34,6 @@
   if (!localStorage.getItem("bites")) {
   	localStorage.setItem("bites", "");
   }
-  localStorage.setItem("bites", "");
   if (!localStorage.getItem("rat time")) {
   	localStorage.setItem("rat time", "0");
   }
@@ -44,11 +43,9 @@
   if (!localStorage.getItem("hunger")) {
   	localStorage.setItem("hunger", 100);
   }
-  localStorage.setItem("hunger", 100);
   if (!localStorage.getItem("hp")) {
   	localStorage.setItem("hp", 100);
   }
-  localStorage.setItem("hp", 100);
   
   //month/genRat check
   if (localStorage.getItem("month") != new Date().getMonth()) {
@@ -57,7 +54,7 @@
   }
   
   //makeRat
-  function makeRat() {
+  function makeRat(url) {
     var rat = new Image();
     rat.onload = function() {
       var canvas = document.createElement("canvas");
@@ -83,6 +80,8 @@
     rat.crossOrigin = "anonymous";
     rat.src="https://streamline.imgix.net/9909d0de-9797-4416-97c3-b6f877e5307d/0620d072-4f32-47d2-8763-6be515a1fba4/Rattus%20rattus%20roof%20rat%20shutterstock_1528292471.jpg?ixlib=rb-1.1.0&w=2000&h=2000&fit=max&or=0&s=22791c3de05d6153495e76eff28ad71f";
   }
+
+  //start
   makeRat();
   
   //genRats
