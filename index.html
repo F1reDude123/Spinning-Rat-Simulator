@@ -84,9 +84,10 @@
   }
 
   //start
-  if (localStorage.getItem("hunger") != "0") localStorage.setItem("hunger", Number(localStorage.getItem("hunger"))-1);
+  if (localStorage.getItem("hunger") != "0") localStorage.setItem("hunger", Number(localStorage.getItem("hunger"))-1) {
     document.getElementById("hunger").style.height=localStorage.getItem("hunger");
-  if (localStorage.getItem("hunger") == "0") {
+  }
+  else {
     localStorage.setItem("hp", (Number(localStorage.getItem("hp"))-10 >= 0 ? Number(localStorage.getItem("hp"))-10 : 0));
   }
   document.getElementById("hp").style.height=localStorage.getItem("hp");
@@ -140,7 +141,7 @@
       localStorage.setItem("hp", (Number(localStorage.getItem("hp"))-10 >= 0 ? Number(localStorage.getItem("hp"))-10 : 0));
     }
     if (localStorage.getItem("hp")=="0") {
-      
+      document.getElementById("deathScreen").style.display="block";
     }
     document.getElementById("hp").style.height=localStorage.getItem("hp");
   }, 1000);
