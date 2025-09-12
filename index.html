@@ -8,17 +8,28 @@
 </style>
 <body>
   <h1>spinning rat simulator</h1>
+  
+  <button style="position:absolute;top:25;left:25;" onclick="document.getElementById('info').style.display='block'">info</button>
+  <button style="position:absolute;top:25;right:25;" onclick="document.getElementById('shop').style.display='block'">shop</button>
+  
   <p>rat spins and adds rat time, e to eat rat, new rat every month, 1/10 chance of chad rat, punches when try to eat</p>
+  
   <div style="border:1px solid #000;padding:20px;" id="box"></div>
+
   <p id="time">rat time</p>
   <input type="range" oninput="speed=Number(this.value);this.nextElementSibling.innerText=`rat speed ${speed}`" min="1" max="100" value="5">
   <p>rat speed 5</p>
   <input type="range" oninput="distortion=Number(this.value);this.nextElementSibling.innerText=`rat distortion ${distortion-1}`;makeRat();" min="1" max="21" value="10">
   <p>rat distortion 10</p>
+
+  
   <div style="background:#ed0;width:20px;height:100px;position:absolute;left:25;bottom:25;z-index:1;" id="hunger"></div>
   <div style="background:#888;width:20px;height:100px;position:absolute;left:25;bottom:25;"></div>
   <div style="background:#f00;width:20px;height:100px;position:absolute;right:25;bottom:25;z-index:1;" id="hp"></div>
   <div style="background:#888;width:20px;height:100px;position:absolute;right:25;bottom:25;"></div>
+
+  
+  
   <div id="deathScreen" style="position:absolute;width:100%;height:100%;background:#000;display:none;top:0;left:0;"><h1 style="color:#f00;">DED</h1><br><p style="color:#fff;">blah blah blah sum bout determination(undertale reference)</p><br><button onclick="restart()" style="font-family:'Comic Sans MS', cursive">DETERMINASHIN</button><br><button onclick="alert('bru u suck');self.close();" style="font-family:'Comic Sans MS', cursive">nah im good</button></div>
 </body>
 <script>
@@ -142,7 +153,7 @@
     else if (localStorage.getItem("hp") != "0") {
       localStorage.setItem("hp", Number(localStorage.getItem("hp"))-10);
     }
-    else {
+    if (localStorage.getItem("hp")=="0") {
       document.getElementById("deathScreen").style.display="block";
     }
     document.getElementById("hp").style.height=localStorage.getItem("hp")+"px";
