@@ -19,6 +19,7 @@
   <div style="background:#888;width:20px;height:100px;position:absolute;left:25;bottom:25;"></div>
   <div style="background:#f00;width:20px;height:100px;position:absolute;right:25;bottom:25;z-index:1;" id="hp"></div>
   <div style="background:#888;width:20px;height:100px;position:absolute;right:25;bottom:25;"></div>
+  <div id="deathScreen" style="position:absolute;width:100%;height:100%;color:#000;display:none;"><h1 style="color:#f00;">YOU DIED</h1><br><p style="color:#fff;">blah blah blah sum bout determination(undertale reference)</p><br><button onclick="restart()">DETERMINASHIN</button><br><button onclick="alert('bru u suck');self.close();">nah im good</button></div>
 </body>
 <script>
   // vars
@@ -83,6 +84,12 @@
   }
 
   //start
+  if (localStorage.getItem("hunger") != "0") localStorage.setItem("hunger", Number(localStorage.getItem("hunger"))-1);
+    document.getElementById("hunger").style.height=localStorage.getItem("hunger");
+  if (localStorage.getItem("hunger") == "0") {
+    localStorage.setItem("hp", (Number(localStorage.getItem("hp"))-10 >= 0 ? Number(localStorage.getItem("hp"))-10 : 0));
+  }
+  document.getElementById("hp").style.height=localStorage.getItem("hp");
   makeRat();
   
   //genRats
@@ -110,6 +117,18 @@
     requestAnimationFrame(()=>spinRat(rot));
   }
   requestAnimationFrame(()=>spinRat(rot));
+
+  
+  //restart
+  function restart() {
+    document.getElementById("deathScreen").style.display="none";
+    localStorage.setItem("rats", 1);
+    localStorage.setItem("bites", "");
+    localStorage.setItem("rat time", 0);
+    localStorage.setItem("month", new Date().getMonth());
+    localStorage.setItem("hunger", 100);
+    localStorage.setItem("hp", 100);
+  }
   
   
   //rat time
@@ -117,10 +136,13 @@
   	localStorage.setItem("rat time", Number(localStorage.getItem("rat time"))+1);
     if (localStorage.getItem("hunger") != "0") localStorage.setItem("hunger", Number(localStorage.getItem("hunger"))-1);
     document.getElementById("hunger").style.height=localStorage.getItem("hunger");
-    document.getElementById("hp").style.height=localStorage.getItem("hp");
     if (localStorage.getItem("hunger") == "0") {
-      localStorage.setItem("hp", Number(localStorage.getItem("hp"))-10);
+      localStorage.setItem("hp", (Number(localStorage.getItem("hp"))-10 >= 0 ? Number(localStorage.getItem("hp"))-10 : 0));
     }
+    if (localStorage.getItem("hp")=="0") {
+      
+    }
+    document.getElementById("hp").style.height=localStorage.getItem("hp");
   }, 1000);
   
   
