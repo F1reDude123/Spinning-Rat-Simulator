@@ -84,12 +84,6 @@
 
   //start
   function start() {
-    if (localStorage.getItem("hunger") != "0") {
-      localStorage.setItem("hunger", Number(localStorage.getItem("hunger"))-1);
-    }
-    else {
-      localStorage.setItem("hp", (Number(localStorage.getItem("hp"))-10 >= 0 ? Number(localStorage.getItem("hp"))-10 : 0));
-    }
     if (localStorage.getItem("hp")=="0") {
       document.getElementById("deathScreen").style.display="block";
     }
