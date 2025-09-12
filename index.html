@@ -95,11 +95,11 @@
 
   //start
   function start() {
+    document.getElementById("hp").style.height=localStorage.getItem("hp")+"px";
+    document.getElementById("hunger").style.height=localStorage.getItem("hunger")+"px";
     if (localStorage.getItem("hp")=="0") {
       document.getElementById("deathScreen").style.display="block";
     }
-    document.getElementById("hp").style.height=localStorage.getItem("hp")+"px";
-    document.getElementById("hunger").style.height=localStorage.getItem("hunger")+"px";
   }
   start();
   makeRat();
@@ -153,11 +153,11 @@
     else if (localStorage.getItem("hp") != "0") {
       localStorage.setItem("hp", Number(localStorage.getItem("hp"))-10);
     }
+    document.getElementById("hp").style.height=localStorage.getItem("hp")+"px";
+    document.getElementById("hunger").style.height=localStorage.getItem("hunger")+"px";
     if (localStorage.getItem("hp")=="0") {
       document.getElementById("deathScreen").style.display="block";
     }
-    document.getElementById("hp").style.height=localStorage.getItem("hp")+"px";
-    document.getElementById("hunger").style.height=localStorage.getItem("hunger")+"px";
   }, 1000);
   
   
