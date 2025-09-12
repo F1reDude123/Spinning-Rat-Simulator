@@ -85,7 +85,7 @@
 
   //start
   if (localStorage.getItem("hunger") != "0") {
-    localStorage.setItem("hunger", Number(localStorage.getItem("hunger"))-1)
+    localStorage.setItem("hunger", Number(localStorage.getItem("hunger"))-1);
     document.getElementById("hunger").style.height=localStorage.getItem("hunger");
   }
   else {
