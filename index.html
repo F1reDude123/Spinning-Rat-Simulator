@@ -145,10 +145,10 @@
     if (localStorage.getItem("hunger") != "0") {
       localStorage.setItem("hunger", Number(localStorage.getItem("hunger"))-1);
     }
-    else {
-      localStorage.setItem("hp", (Number(localStorage.getItem("hp"))-10 >= 0 ? Number(localStorage.getItem("hp"))-10 : 0));
+    else if (localStorage.getItem("hp") != "0") {
+      localStorage.setItem("hp", Number(localStorage.getItem("hp"))-10);
     }
-    if (localStorage.getItem("hp")=="0") {
+    else {
       document.getElementById("deathScreen").style.display="block";
     }
     document.getElementById("hp").style.height=localStorage.getItem("hp")+"px";
