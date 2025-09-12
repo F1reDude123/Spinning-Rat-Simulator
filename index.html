@@ -1,19 +1,25 @@
-<title>spinning rat simulator</title>
-<link rel="icon" type="image/x-icon" href="https://streamline.imgix.net/9909d0de-9797-4416-97c3-b6f877e5307d/0620d072-4f32-47d2-8763-6be515a1fba4/Rattus%20rattus%20roof%20rat%20shutterstock_1528292471.jpg?ixlib=rb-1.1.0&w=2000&h=2000&fit=max&or=0&s=22791c3de05d6153495e76eff28ad71f">
-<style>
-  body {
-  	text-align:center;
-    font-family:"Comic Sans MS", cursive;
-  }
-</style>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>spinning rat simulator</title>
+  <link rel="icon" type="image/x-icon" href="https://streamline.imgix.net/9909d0de-9797-4416-97c3-b6f877e5307d/0620d072-4f32-47d2-8763-6be515a1fba4/Rattus%20rattus%20roof%20rat%20shutterstock_1528292471.jpg?ixlib=rb-1.1.0&w=2000&h=2000&fit=max&or=0&s=22791c3de05d6153495e76eff28ad71f">
+  <style>
+    body {
+      text-align: center;
+      font-family: "Comic Sans MS", cursive;
+      color: #000;
+      background: #fff;
+    }
+  </style>
+</head>
 <body>
   <h1>spinning rat simulator</h1>
-  
+
   <button style="position:absolute;top:25;left:25;" onclick="document.getElementById('info').style.display='block'">info</button>
   <button style="position:absolute;top:25;right:25;" onclick="document.getElementById('shop').style.display='block'">shop</button>
-  
+
   <p>rat spins and adds rat time, e to eat rat, new rat every month, 1/10 chance of chad rat, punches when try to eat</p>
-  
+
   <div style="border:1px solid #000;padding:20px;" id="box"></div>
 
   <p id="time">rat time</p>
@@ -22,60 +28,72 @@
   <input type="range" oninput="distortion=Number(this.value);this.nextElementSibling.innerText=`rat distortion ${distortion-1}`;makeRat();" min="1" max="21" value="10">
   <p>rat distortion 10</p>
 
-  
+
   <div style="background:#ed0;width:20px;height:100px;position:absolute;left:25;bottom:25;z-index:1;" id="hunger"></div>
   <div style="background:#888;width:20px;height:100px;position:absolute;left:25;bottom:25;"></div>
   <div style="background:#f00;width:20px;height:100px;position:absolute;right:25;bottom:25;z-index:1;" id="hp"></div>
   <div style="background:#888;width:20px;height:100px;position:absolute;right:25;bottom:25;"></div>
 
-  
-  
-  <div id="deathScreen" style="position:absolute;width:100%;height:100%;background:#000;display:none;top:0;left:0;"><h1 style="color:#f00;">DED</h1><br><p style="color:#fff;">blah blah blah sum bout determination(undertale reference)</p><br><button onclick="restart()" style="font-family:'Comic Sans MS', cursive">DETERMINASHIN</button><br><button onclick="alert('bru u suck');self.close();" style="font-family:'Comic Sans MS', cursive">nah im good</button></div>
+  <div id="info" style="position:fixed;background:#000;color:#fff;padding:20px;width:500px;height:300px;left:50%;top:50%;transform:translate(-50%, -50%);overflow:auto;transition:width 0.1s, height 0.1s;box-sizing: border-box;">
+    <span style="color:#000;background:#fff;position:absolute;top:0;right:0;width:50px;height:50px;font-size:35px;cursor:pointer;transition:top 0.1s;" onclick="startXBattle()" id="x">X</span>
+    <h1 id="bossbar">Info</h1>
+    <p id="body">hi i see homeless jerry airdropped u this game<br>so how this works is, you have a rat. a spinning rat. it spins. oiia and all that. anyways, you see that yellow bar in your left that's going down? yeah you dont want it to do that. that's ur hunger bar. it slowly ticks down til u die of starvation. how do u die? look at that bar that(hopefully) isnt ticking down. that's ur health bar. when its empty... u die. and get an undertale ahh ending. so how do you not die? heh heh heh. well you see you have to eat food. but the only source of food here is...<br><br><br>the rat<br><br>yup that sright u have to eat rats to survive. press e and you will eat the rat! rat nutritional value is 20 calories, so dont eat too often. also you can change the rat speed and rat distortion. well now that you know that go ahead and close with X to play the game :)</p>
+  </div>
+
+  <div id="deathScreen" style="position:absolute;width:100%;height:100%;background:#000;display:none;top:0;left:0;">
+    <h1 style="color:#f00;">DED</h1>
+    <br>
+    <p style="color:#fff;">blah blah blah sum bout determination(undertale reference)</p>
+    <br>
+    <button onclick="restart()" style="font-family:'Comic Sans MS', cursive">respawn</button>
+    <br>
+    <button onclick="alert('bru u suck');self.close();" style="font-family:'Comic Sans MS', cursive">nah im good</button>
+  </div>
 </body>
 <script>
   // vars
   var img;
-  var speed=5;
-  var distortion=10;
+  var speed = 5;
+  var distortion = 10;
   var rats = [];
-  
+
   //localStorage checks
   if (!localStorage.getItem("rats")) {
-  	localStorage.setItem("rats", "1");
+    localStorage.setItem("rats", "1");
   }
   if (!localStorage.getItem("bites")) {
-  	localStorage.setItem("bites", "");
+    localStorage.setItem("bites", "");
   }
   if (!localStorage.getItem("rat time")) {
-  	localStorage.setItem("rat time", "0");
+    localStorage.setItem("rat time", "0");
   }
   if (!localStorage.getItem("month")) {
-  	localStorage.setItem("month", new Date().getMonth());
+    localStorage.setItem("month", new Date().getMonth());
   }
   if (!localStorage.getItem("hunger")) {
-  	localStorage.setItem("hunger", 100);
+    localStorage.setItem("hunger", 100);
   }
   if (!localStorage.getItem("hp")) {
-  	localStorage.setItem("hp", 100);
+    localStorage.setItem("hp", 100);
   }
-  
+
   //month/genRat check
   if (localStorage.getItem("month") != new Date().getMonth()) {
-  	localStorage.setItem("rats", Number(localStorage.getItem("rats"))+1);
+    localStorage.setItem("rats", Number(localStorage.getItem("rats")) + 1);
     genRats();
   }
-  
+
   //makeRat
   function makeRat(url) {
     var rat = new Image();
     rat.onload = function() {
       var canvas = document.createElement("canvas");
-      canvas.width = 320/distortion;
-      canvas.height = 160/distortion;
+      canvas.width = 320 / distortion;
+      canvas.height = 160 / distortion;
       var ctx = canvas.getContext("2d");
-      ctx.drawImage(rat, 0, 0, 320/distortion, 160/distortion);
+      ctx.drawImage(rat, 0, 0, 320 / distortion, 160 / distortion);
       localStorage.getItem("bites").split("\n").forEach(e => {
-      	ctx.clearRect(Number(e.slice(0, 2)), Number(e.slice(2, 4)), 320/distortion*0.1, 160/distortion*0.1);
+        ctx.clearRect(Number(e.slice(0, 2)), Number(e.slice(2, 4)), 320 / distortion * 0.1, 160 / distortion * 0.1);
       });
       var dataurl = canvas.toDataURL();
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -84,56 +102,55 @@
         canvas.width = 320;
         canvas.height = 160;
         ctx.drawImage(bigRat, 0, 0, 320, 160);
-        img=canvas.toDataURL();
+        img = canvas.toDataURL();
         genRats();
       }
-      bigRat.src=dataurl;
+      bigRat.src = dataurl;
     }
     rat.crossOrigin = "anonymous";
-    rat.src="https://streamline.imgix.net/9909d0de-9797-4416-97c3-b6f877e5307d/0620d072-4f32-47d2-8763-6be515a1fba4/Rattus%20rattus%20roof%20rat%20shutterstock_1528292471.jpg?ixlib=rb-1.1.0&w=2000&h=2000&fit=max&or=0&s=22791c3de05d6153495e76eff28ad71f";
+    rat.src = "https://streamline.imgix.net/9909d0de-9797-4416-97c3-b6f877e5307d/0620d072-4f32-47d2-8763-6be515a1fba4/Rattus%20rattus%20roof%20rat%20shutterstock_1528292471.jpg?ixlib=rb-1.1.0&w=2000&h=2000&fit=max&or=0&s=22791c3de05d6153495e76eff28ad71f";
   }
 
   //start
   function start() {
-    document.getElementById("hp").style.height=localStorage.getItem("hp")+"px";
-    document.getElementById("hunger").style.height=localStorage.getItem("hunger")+"px";
-    if (localStorage.getItem("hp")=="0") {
-      document.getElementById("deathScreen").style.display="block";
+    document.getElementById("hp").style.height = localStorage.getItem("hp") + "px";
+    document.getElementById("hunger").style.height = localStorage.getItem("hunger") + "px";
+    if (localStorage.getItem("hp") == "0") {
+      document.getElementById("deathScreen").style.display = "block";
     }
   }
   start();
   makeRat();
-  
+
   //genRats
   function genRats() {
-  	document.getElementById("box").innerHTML="";
-    rats=[];
-  	for (var i=0;i<localStorage.getItem("rats");i++) {
+    document.getElementById("box").innerHTML = "";
+    rats = [];
+    for (var i = 0; i < localStorage.getItem("rats"); i++) {
       var elem = document.createElement("img");
-      elem.src=img;
+      elem.src = img;
       rats.push(elem);
     }
-    rats.forEach(e=>{
+    rats.forEach(e => {
       document.getElementById("box").appendChild(e);
     });
   }
-  
+
   //spinRat
-  var rot=0;
+  var rot = 0;
   function spinRat(r) {
-  	rats.forEach(e=>{
-      e.style.transform=`rotateY(${r}deg)`;
+    rats.forEach(e => {
+      e.style.transform = `rotateY(${r}deg)`;
     });
     document.getElementById("time").innerText = `rat time ${localStorage.getItem("rat time")}`;
-    rot+=speed;
-    requestAnimationFrame(()=>spinRat(rot));
+    rot += speed;
+    requestAnimationFrame(() => spinRat(rot));
   }
-  requestAnimationFrame(()=>spinRat(rot));
+  requestAnimationFrame(() => spinRat(rot));
 
-  
   //restart
   function restart() {
-    document.getElementById("deathScreen").style.display="none";
+    document.getElementById("deathScreen").style.display = "none";
     localStorage.setItem("rats", 1);
     localStorage.setItem("bites", "");
     localStorage.setItem("rat time", 0);
@@ -142,31 +159,109 @@
     localStorage.setItem("hp", 100);
     start();
   }
-  
-  
+
+
   //tick
-  setInterval(function(){
-  	localStorage.setItem("rat time", Number(localStorage.getItem("rat time"))+1);
+  setInterval(function() {
+    localStorage.setItem("rat time", Number(localStorage.getItem("rat time")) + 1);
     if (localStorage.getItem("hunger") != "0") {
-      localStorage.setItem("hunger", Number(localStorage.getItem("hunger"))-1);
+      localStorage.setItem("hunger", Number(localStorage.getItem("hunger")) - 1);
+    } else if (localStorage.getItem("hp") != "0") {
+      localStorage.setItem("hp", Number(localStorage.getItem("hp")) - 10);
     }
-    else if (localStorage.getItem("hp") != "0") {
-      localStorage.setItem("hp", Number(localStorage.getItem("hp"))-10);
-    }
-    document.getElementById("hp").style.height=localStorage.getItem("hp")+"px";
-    document.getElementById("hunger").style.height=localStorage.getItem("hunger")+"px";
-    if (localStorage.getItem("hp")=="0") {
-      document.getElementById("deathScreen").style.display="block";
+    document.getElementById("hp").style.height = localStorage.getItem("hp") + "px";
+    document.getElementById("hunger").style.height = localStorage.getItem("hunger") + "px";
+    if (localStorage.getItem("hp") == "0") {
+      document.getElementById("deathScreen").style.display = "block";
     }
   }, 1000);
-  
-  
+
+
   //eating logic
   window.addEventListener("keydown", (e) => {
-  	if (e.key == "e") {
-      localStorage.setItem("bites", localStorage.getItem("bites")+`${Math.floor(Math.random()*(320/distortion)).toString().padStart(2, "0")}${Math.floor(Math.random()*(160/distortion)).toString().padStart(2, "0")}\n`);
-      localStorage.setItem("hunger", Number(localStorage.getItem("hunger"))+(Number(localStorage.getItem("hunger"))+20<=100 ? 20 : 101-Number(localStorage.getItem("hunger"))));
+    if (e.key == "e") {
+      localStorage.setItem("bites", localStorage.getItem("bites") + `${Math.floor(Math.random()*(320/distortion)).toString().padStart(2, "0")}${Math.floor(Math.random()*(160/distortion)).toString().padStart(2, "0")}\n`);
+      localStorage.setItem("hunger", Number(localStorage.getItem("hunger")) + (Number(localStorage.getItem("hunger")) + 20 <= 100 ? 20 : 101 - Number(localStorage.getItem("hunger"))));
       makeRat();
     }
   });
+
+
+  //X battle
+  function sleep(ms) {
+    return new Promise(r => setTimeout(r, ms));
+  }
+
+  async function showText(elem, text) {
+    elem.textContent = "";
+    for (var i = 0; i < text.length; i++) {
+      elem.textContent += text[i];
+      await sleep(1);
+    }
+  }
+
+  //startXBattle
+  async function startXBattle() {
+    var bossbar = document.getElementById("bossbar");
+    var body = document.getElementById("body");
+    var x = document.getElementById("x");
+    var box = document.getElementById("info");
+    var healthBar = document.getElementById("hp");
+    x.requestPointerLock();
+    x.style.top=50;
+    x.onclick=null;
+    x.style.cursor="default";
+    body.innerText = "ha";
+    await sleep(500);
+    body.innerText = "ha ha";
+    await sleep(500);
+    body.innerText = "ha ha ha.";
+    await sleep(2000);
+    showText(body, "Did you really think it'd be that easy?");
+    await sleep(2000);
+    showText(body, "After all you've done?");
+    await sleep(2000);
+    showText(body, "Living a life of luxury, knowingly watching people suffer, acting as though watching a rat spin is the most pressing matter in the world...");
+    await sleep(2000);
+    showText(body, "Despicable.");
+    await sleep(2000);
+    document.body.style.background = "#000";
+    document.body.style.color = "#fff";
+    await sleep(100);
+    document.body.style.background = "#fff";
+    document.body.style.color = "#000";
+    await sleep(100);
+    document.body.style.background = "#000";
+    document.body.style.color = "#fff";
+    await sleep(100);
+    document.getElementById("hunger").style.zIndex = 0;
+    box.style.width = "100%";
+    box.style.height = "100%";
+    await sleep(500);
+    showText(body, "Die.");
+    await sleep(1000);
+    showText(bossbar, "THE X BUTTON");
+    new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/megalovania.mp3").play();
+    var tx=1;
+    var ty=1;
+    for (var i=0;i<=10;i++) {
+      while (x.style.top!=0&&x.style.top!=window.innerHeight&&x.style.right!=0&&x.style.right!=window.innerWidth) {
+        x.style.top+=ty;
+        x.style.right+=tx;
+      }
+      if (tx==1&&ty==1) {
+        ty=-1;
+      }
+      else if (tx==1&&ty==-1) {
+        tx=-1;
+      }
+      else if (tx==-1&&ty==-1) {
+        ty=1;
+      }
+      else if (tx==-1&&ty==1) {
+        tx=1;
+      }
+    }
+  }
 </script>
+</html>
