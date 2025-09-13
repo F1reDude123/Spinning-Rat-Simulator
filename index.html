@@ -196,6 +196,7 @@
     elem.textContent = "";
     for (var i = 0; i < text.length; i++) {
       elem.textContent += text[i];
+	    new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/square.wav").play();
       await sleep(10);
     }
   }
@@ -213,10 +214,13 @@
     x.onclick=null;
     x.style.cursor="default";
     await sleep(1000);
+    new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/square.wav").play();
     body.innerText = "ha";
     await sleep(500);
+    new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/square.wav").play();
     body.innerText = "ha ha";
     await sleep(500);
+    new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/square.wav").play();
     body.innerText = "ha ha ha.";
     await sleep(2000);
     showText(body, "Did you really think it'd be that easy?");
@@ -290,9 +294,9 @@
     var transTimer=0;
     await new Promise(r=>{
       var trans1 = setInterval(function() {
-        if (transTimer!=270) {
-          x.style.top=(window.innerHeight/2+Math.sin(transTimer*0.1)*100-50)+"px";
-          transTimer++;
+        if (transTimer!=Math.PI) {
+          x.style.top=(window.innerHeight/2+Math.sin(transTime)*100-50)+"px";
+          transTimer+=Math.PI/10;
         }
         else {
 		  clearInterval(trans1);
