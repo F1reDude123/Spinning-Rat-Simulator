@@ -253,16 +253,16 @@
       x.style.top=(parseInt(x.style.top)+ty)+"px";
       x.style.right=(parseInt(x.style.right)+tx)+"px";
 	  if (x.style.top==(window.innerHeight-50)+"px") {
-      	ty=-5;
+      	ty=-1;
       }
       else if (x.style.right==(window.innerWidth-50)+"px") {
-      	tx=-5;
+      	tx=-1;
       }
       if (x.style.top=="0px") {
-      	ty=5;
+      	ty=1;
       }
       if (x.style.right=="0px") {
-      	tx=5;
+      	tx=1;
       }
     }, 10);
   }
