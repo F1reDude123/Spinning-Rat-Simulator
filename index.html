@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>spinning rat simulator</title>
-  <link rel="icon" type="image/x-icon" href="https://streamline.imgix.net/9909d0de-9797-4416-97c3-b6f877e5307d/0620d072-4f32-47d2-8763-6be515a1fba4/Rattus%20rattus%20roof%20rat%20shutterstock_1528292471.jpg?ixlib=rb-1.1.0&w=2000&h=2000&fit=max&or=0&s=22791c3de05d6153495e76eff28ad71f">
+  <title id="title">spinning rat simulator</title>
+  <link id="icon" rel="icon" type="image/x-icon" href="https://streamline.imgix.net/9909d0de-9797-4416-97c3-b6f877e5307d/0620d072-4f32-47d2-8763-6be515a1fba4/Rattus%20rattus%20roof%20rat%20shutterstock_1528292471.jpg?ixlib=rb-1.1.0&w=2000&h=2000&fit=max&or=0&s=22791c3de05d6153495e76eff28ad71f">
   <style>
     body {
       text-align: center;
@@ -242,6 +242,7 @@
     await sleep(500);
     showText(body, "Die.");
     await sleep(1000);
+	  showText(document.getElementById("title"), "X bossfight");
     showText(title, "THE X BUTTON");
     bossbar.style.width="500px";
     new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/megalovania.mp3").play();
