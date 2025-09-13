@@ -15,8 +15,7 @@
 <body>
   <h1>spinning rat simulator</h1>
 
-  <button style="position:absolute;top:25;left:25;" onclick="document.getElementById('info').style.display='block'">info</button>
-  <button style="position:absolute;top:25;right:25;" onclick="document.getElementById('shop').style.display='block'">shop</button>
+  <button style="position:absolute;top:25px;left:25px;" onclick="document.getElementById('info').style.display='block'">info</button>
 
   <p>rat spins and adds rat time, e to eat rat, new rat every month, 1/10 chance of chad rat, punches when try to eat</p>
 
@@ -29,14 +28,15 @@
   <p>rat distortion 10</p>
 
 
-  <div style="background:#ed0;width:20px;height:100px;position:absolute;left:25;bottom:25;z-index:1;" id="hunger"></div>
-  <div style="background:#888;width:20px;height:100px;position:absolute;left:25;bottom:25;"></div>
-  <div style="background:#f00;width:20px;height:100px;position:absolute;right:25;bottom:25;z-index:1;" id="hp"></div>
-  <div style="background:#888;width:20px;height:100px;position:absolute;right:25;bottom:25;"></div>
+  <div style="background:#ed0;width:20px;height:100px;position:absolute;left:25px;bottom:25px;z-index:1;" id="hunger"></div>
+  <div style="background:#888;width:20px;height:100px;position:absolute;left:25px;bottom:25px;"></div>
+  <div style="background:#f00;width:20px;height:100px;position:absolute;right:25px;bottom:25px;z-index:1;" id="hp"></div>
+  <div style="background:#888;width:20px;height:100px;position:absolute;right:25px;bottom:25px;"></div>
 
-  <div id="info" style="position:fixed;background:#000;color:#fff;padding:20px;width:500px;height:300px;left:50%;top:50%;transform:translate(-50%, -50%);overflow:auto;transition:width 0.1s, height 0.1s;box-sizing: border-box;">
+  <div id="info" style="position:fixed;background:#000;color:#fff;padding:20px;width:500px;height:300px;left:50%;top:50%;transform:translate(-50%, -50%);overflow:auto;transition:width 0.1s, height 0.1s;box-sizing: border-box;display:none;">
     <span style="color:#000;background:#fff;position:absolute;top:0;right:0;width:50px;height:50px;font-size:35px;cursor:pointer;transition:top 0.1s;" onclick="startXBattle()" id="x">X</span>
-    <h1 id="bossbar">Info</h1>
+    <h1 id="title">Info</h1>
+    <div id="bossbar" style="width:0;height:10px;background:#fff;transition:width 15.985s linear;margin:auto;"></div>
     <p id="body">hi i see homeless jerry airdropped u this game<br>so how this works is, you have a rat. a spinning rat. it spins. oiia and all that. anyways, you see that yellow bar in your left that's going down? yeah you dont want it to do that. that's ur hunger bar. it slowly ticks down til u die of starvation. how do u die? look at that bar that(hopefully) isnt ticking down. that's ur health bar. when its empty... u die. and get an undertale ahh ending. so how do you not die? heh heh heh. well you see you have to eat food. but the only source of food here is...<br><br><br>the rat<br><br>yup that sright u have to eat rats to survive. press e and you will eat the rat! rat nutritional value is 20 calories, so dont eat too often. also you can change the rat speed and rat distortion. well now that you know that go ahead and close with X to play the game :)</p>
   </div>
 
@@ -196,19 +196,20 @@
     elem.textContent = "";
     for (var i = 0; i < text.length; i++) {
       elem.textContent += text[i];
-      await sleep(1);
+      await sleep(10);
     }
   }
 
   //startXBattle
   async function startXBattle() {
+    var title = document.getElementById("title");
     var bossbar = document.getElementById("bossbar");
     var body = document.getElementById("body");
     var x = document.getElementById("x");
     var box = document.getElementById("info");
     var healthBar = document.getElementById("hp");
     x.requestPointerLock();
-    x.style.top=50;
+    x.style.top="50px";
     x.onclick=null;
     x.style.cursor="default";
     body.innerText = "ha";
@@ -222,7 +223,7 @@
     showText(body, "After all you've done?");
     await sleep(2000);
     showText(body, "Living a life of luxury, knowingly watching people suffer, acting as though watching a rat spin is the most pressing matter in the world...");
-    await sleep(2000);
+    await sleep(5000);
     showText(body, "Despicable.");
     await sleep(2000);
     document.body.style.background = "#000";
@@ -240,28 +241,30 @@
     await sleep(500);
     showText(body, "Die.");
     await sleep(1000);
-    showText(bossbar, "THE X BUTTON");
+    showText(title, "THE X BUTTON");
+    bossbar.style.width="500px";
     new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/megalovania.mp3").play();
-    var tx=1;
-    var ty=1;
-    for (var i=0;i<=10;i++) {
-      while (x.style.top!=0&&x.style.top!=window.innerHeight&&x.style.right!=0&&x.style.right!=window.innerWidth) {
-        x.style.top+=ty;
-        x.style.right+=tx;
+    var tx=2;
+    var ty=2;
+    x.style.right="1px";
+    await sleep(15985);
+    x.style.transition="none";
+    setInterval(function() {
+      x.style.top=(parseInt(x.style.top)+ty)+"px";
+      x.style.right=(parseInt(x.style.right)+tx)+"px";
+	  if (x.style.top==(window.innerHeight-50)+"px") {
+      	ty=-5;
       }
-      if (tx==1&&ty==1) {
-        ty=-1;
+      else if (x.style.right==(window.innerWidth-50)+"px") {
+      	tx=-5;
       }
-      else if (tx==1&&ty==-1) {
-        tx=-1;
+      if (x.style.top=="0px") {
+      	ty=5;
       }
-      else if (tx==-1&&ty==-1) {
-        ty=1;
+      if (x.style.right=="0px") {
+      	tx=5;
       }
-      else if (tx==-1&&ty==1) {
-        tx=1;
-      }
-    }
+    }, 10);
   }
 </script>
 </html>
