@@ -38,6 +38,8 @@
     <h1 id="title">Info</h1>
     <div id="bossbar" style="width:0;height:10px;background:#fff;transition:width 15.985s linear;margin:auto;"></div>
     <p id="body">hi i see homeless jerry airdropped u this game<br>so how this works is, you have a rat. a spinning rat. it spins. oiia and all that. anyways, you see that yellow bar in your left that's going down? yeah you dont want it to do that. that's ur hunger bar. it slowly ticks down til u die of starvation. how do u die? look at that bar that(hopefully) isnt ticking down. that's ur health bar. when its empty... u die. and get an undertale ahh ending. so how do you not die? heh heh heh. well you see you have to eat food. but the only source of food here is...<br><br><br>the rat<br><br>yup that sright u have to eat rats to survive. press e and you will eat the rat! rat nutritional value is 20 calories, so dont eat too often. also you can change the rat speed and rat distortion. well now that you know that go ahead and close with X to play the game :)</p>
+    <p style="font-family:monospace;" id="rattus"></p>
+    <img src="https://f1redude123.github.io/Spinning-Rat-Simulator/heart.png" style="scale:0.5;position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);display:none;" id="heart">
   </div>
 
   <div id="deathScreen" style="position:absolute;width:100%;height:100%;background:#000;display:none;top:0;left:0;">
@@ -56,6 +58,12 @@
   var speed = 5;
   var distortion = 10;
   var rats = [];
+  var keys={
+  	"ArrowRight":false,
+    "ArrowLeft":false,
+    "ArrowUp":false,
+    "ArrowDown":false
+  };
 
   //localStorage checks
   if (!localStorage.getItem("rats")) {
@@ -178,16 +186,29 @@
 
 
   //eating logic
-  window.addEventListener("keydown", (e) => {
+  window.addEventListener("keydown", e => {
     if (e.key == "e") {
       localStorage.setItem("bites", localStorage.getItem("bites") + `${Math.floor(Math.random()*(320/distortion)).toString().padStart(2, "0")}${Math.floor(Math.random()*(160/distortion)).toString().padStart(2, "0")}\n`);
       localStorage.setItem("hunger", Number(localStorage.getItem("hunger")) + (Number(localStorage.getItem("hunger")) + 20 <= 100 ? 20 : 101 - Number(localStorage.getItem("hunger"))));
       makeRat();
     }
+    if (e.key.includes("Arrow")) {
+      e.preventDefault();
+      keys[e.key]=true;
+    }
+  });
+  
+  window.addEventListener("keyup", e => {
+  	if (e.key.includes("Arrow")) {
+      keys[e.key]=false;
+    }
   });
 
 
   //X battle
+  var hx=window.innerWidth/2;
+  var hy=window.innerHeight/2;
+  
   function sleep(ms) {
     return new Promise(r => setTimeout(r, ms));
   }
@@ -196,7 +217,6 @@
     elem.textContent = "";
     for (var i = 0; i < text.length; i++) {
       elem.textContent += text[i];
-	    new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/square.wav").play();
       await sleep(10);
     }
   }
@@ -206,21 +226,20 @@
     var title = document.getElementById("title");
     var bossbar = document.getElementById("bossbar");
     var body = document.getElementById("body");
+    var rattus = document.getElementById("rattus");
     var x = document.getElementById("x");
     var box = document.getElementById("info");
     var healthBar = document.getElementById("hp");
+    var heart=document.getElementById("heart");
     x.requestPointerLock();
     x.style.top="50px";
     x.onclick=null;
     x.style.cursor="default";
     await sleep(1000);
-    new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/square.wav").play();
     body.innerText = "ha";
     await sleep(500);
-    new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/square.wav").play();
     body.innerText = "ha ha";
     await sleep(500);
-    new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/square.wav").play();
     body.innerText = "ha ha ha.";
     await sleep(2000);
     showText(body, "Did you really think it'd be that easy?");
@@ -243,13 +262,31 @@
     document.getElementById("hunger").style.zIndex = 0;
     box.style.width = "100%";
     box.style.height = "100%";
+    heart.style.top=window.innerHeight/2+"px";
+    heart.style.left=window.innerWidth/2+"px";
+    heart.style.display="block";
+    setInterval(function() {
+  	  if (keys["ArrowRight"]) {
+      	heart.style.left=(parseInt(heart.style.left)+1)+"px";
+      }
+      if (keys["ArrowLeft"]) {
+      	heart.style.left=(parseInt(heart.style.left)-1)+"px";
+      }
+      if (keys["ArrowUp"]) {
+      	heart.style.top=(parseInt(heart.style.top)-1)+"px";
+      }
+      if (keys["ArrowDown"]) {
+      	heart.style.top=(parseInt(heart.style.top)+1)+"px";
+      }
+  	}, 10);
     await sleep(500);
     showText(body, "Die.");
     await sleep(1000);
     showText(title, "THE X BUTTON");
     showText(document.getElementById("ptitle"), "X bossfight");
     bossbar.style.width="500px";
-    new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/megalovania.mp3").play();
+    var music=new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/megalovania.mp3");
+    music.play();
     var speed=3;
     var tx=speed;
     var ty=speed;
@@ -285,7 +322,7 @@
       }, 10);
     });
     await sleep(500);
-    x.style.transition="top 0.5s, right 0.5s, transform 0.5s";
+    x.style.transition="top 0.5s, right 0.5s";
     x.style.top="calc(50% - 25px)";
     x.style.right="calc(50% - 25px)";
     await sleep(1000);
@@ -294,9 +331,10 @@
     var transTimer=0;
     await new Promise(r=>{
       var trans1 = setInterval(function() {
-        if (transTimer!=Math.PI) {
-          x.style.top=(window.innerHeight/2+Math.sin(transTime)*100-50)+"px";
-          transTimer+=Math.PI/10;
+        if (transTimer!=500) {
+          x.style.top=(window.innerHeight/2+Math.sin(transTimer*Math.PI/50)*100-25)+"px";
+          x.style.right=(window.innerWidth/2+Math.sin(transTimer*Math.PI/100)*100-25)+"px";
+          transTimer+=1;
         }
         else {
 		  clearInterval(trans1);
@@ -304,6 +342,12 @@
         }
       }, 10);
     });
+    await sleep(500);
+    showText(body, "Let's try this again!");
+    await sleep(1000);
+    music.pause();
+    new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/scratch.wav").play();
+    showText(rattus, "WAIT!!!");
   }
 </script>
 </html>
