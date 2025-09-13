@@ -17,7 +17,7 @@
 
   <button style="position:absolute;top:25px;left:25px;" onclick="document.getElementById('info').style.display='block'">info</button>
 
-  <p>rat spins and adds rat time, e to eat rat, new rat every month, 1/10 chance of chad rat, punches when try to eat</p>
+  <p>New players: Click info for tutorial</p>
 
   <div style="border:1px solid #000;padding:20px;" id="box"></div>
 
@@ -56,7 +56,6 @@
   var speed = 5;
   var distortion = 10;
   var rats = [];
-	var inRPG=false;
 
   //localStorage checks
   if (!localStorage.getItem("rats")) {
@@ -164,20 +163,17 @@
 
   //tick
   setInterval(function() {
-		if (!inRPG) {
-			localStorage.setItem("rat time", Number(localStorage.getItem("rat time")) + 1);
-	    if (localStorage.getItem("hunger") != "0") {
-	      localStorage.setItem("hunger", Number(localStorage.getItem("hunger")) - 1);
-	    }
-			else if (localStorage.getItem("hp") != "0") {
-	      localStorage.setItem("hp", Number(localStorage.getItem("hp")) - 10);
-	    }
-	    document.getElementById("hp").style.height = localStorage.getItem("hp") + "px";
-	    document.getElementById("hunger").style.height = localStorage.getItem("hunger") + "px";
-	    if (localStorage.getItem("hp") == "0") {
-	      document.getElementById("deathScreen").style.display = "block";
-	    }
-		}
+    localStorage.setItem("rat time", Number(localStorage.getItem("rat time")) + 1);
+    if (localStorage.getItem("hunger") != "0") {
+      localStorage.setItem("hunger", Number(localStorage.getItem("hunger")) - 1);
+    } else if (localStorage.getItem("hp") != "0") {
+      localStorage.setItem("hp", Number(localStorage.getItem("hp")) - 10);
+    }
+    document.getElementById("hp").style.height = localStorage.getItem("hp") + "px";
+    document.getElementById("hunger").style.height = localStorage.getItem("hunger") + "px";
+    if (localStorage.getItem("hp") == "0") {
+      document.getElementById("deathScreen").style.display = "block";
+    }
   }, 1000);
 
 
@@ -216,8 +212,7 @@
     x.style.top="50px";
     x.onclick=null;
     x.style.cursor="default";
-		inRPG=true;
-		await sleep(1000);
+    await sleep(1000);
     body.innerText = "ha";
     await sleep(500);
     body.innerText = "ha ha";
@@ -228,7 +223,7 @@
     await sleep(2000);
     showText(body, "After all you've done?");
     await sleep(2000);
-    showText(body, "You degenerate fools, acting as though a spinning rat is the most pressing matter in the world...");
+    showText(body, "You filthy degenerates, acting as though a spinning rat were the most pressing matter in the world...");
     await sleep(5000);
     showText(body, "Despicable.");
     await sleep(2000);
@@ -250,32 +245,60 @@
     showText(title, "THE X BUTTON");
     bossbar.style.width="500px";
     new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/megalovania.mp3").play();
-		var speed=1;
+    var speed=3;
     var tx=speed;
     var ty=speed;
     x.style.right="1px";
     await sleep(15985);
+    showText(body, "Take this!");
     x.style.transition="none";
-    setInterval(function() {
-      x.style.top=(parseInt(x.style.top)+ty)+"px";
-      x.style.right=(parseInt(x.style.right)+tx)+"px";
-	  	if (parseInt(x.style.top)>=window.innerHeight-50) {
-      	ty=-speed;
-				speed++;
-      }
-      else if (parseInt(x.style.right)>=window.innerWidth-50) {
-      	tx=-speed;
-				speed++;
-      }
-      else if (parseInt(x.style.top)<=0) {
-      	ty=speed;
-				speed++;
-      }
-      else if (parseInt(x.style.right)<=0) {
-      	tx=speed;
-				speed++;
-      }
-    }, 10);
+    var bounces=0;
+    await new Promise(r=>{
+      var phase1 = setInterval(function() {
+        x.style.top=(parseInt(x.style.top)+ty)+"px";
+        x.style.right=(parseInt(x.style.right)+tx)+"px";
+        if (parseInt(x.style.top)>=window.innerHeight-50) {
+          ty=-speed;
+          bounces++;
+        }
+        else if (parseInt(x.style.right)>=window.innerWidth-50) {
+          tx=-speed;
+          bounces++;
+        }
+        if (parseInt(x.style.top)<=0) {
+          ty=speed;
+          bounces++;
+        }
+        if (parseInt(x.style.right)<=0) {
+          tx=speed;
+          bounces++;
+        }
+        if (bounces==40) {
+          clearInterval(phase1);
+          r();
+        }
+      }, 10);
+    });
+    await sleep(500);
+    x.style.transition="top 0.5s, right 0.5s, transform 0.5s";
+    x.style.top="calc(50% - 25px)";
+    x.style.right="calc(50% - 25px)";
+    await sleep(1000);
+    x.style.transition="none";
+    showText(body, "Gahh! Stop moving and let me crush you!");
+    var transTimer=0;
+    await new Promise(r=>{
+      var trans1 = setInterval(function() {
+        if (transTimer!=225) {
+          x.style.top=(window.innerHeight/2+Math.sin(transTimer*0.1)*100-50)+"px";
+          transTimer++;
+        }
+        else {
+		  clearInterval(trans1);
+          r();
+        }
+      }, 10);
+    });
   }
 </script>
 </html>
