@@ -515,6 +515,38 @@
         x3.style.right=(parseInt(x3.style.right)+1)+"px";
         await sleep(50);
       }
+      await sleep(2000);
+      showText(body, "Prepare yourself!");
+      await new Promise(r => {
+        var phase2 = setInterval(function() {
+          x.style.top = (parseInt(x.style.top) + ty) + "px";
+          x.style.right = (parseInt(x.style.right) + tx) + "px";
+          x2.style.top = (parseInt(x2.style.top) + ty) + "px";
+          x2.style.right = (parseInt(x2.style.right) + tx) + "px";
+          x3.style.top = (parseInt(x3.style.top) + ty) + "px";
+          x3.style.right = (parseInt(x3.style.right) + tx) + "px";
+          if (parseInt(x.style.top) >= window.innerHeight - 50) {
+            ty = -speed;
+            bounces++;
+          }
+          if (parseInt(x.style.right) >= window.innerWidth - 50) {
+            tx = -speed;
+            bounces++;
+          }
+          if (parseInt(x.style.top) <= 0) {
+            ty = speed;
+            bounces++;
+          }
+          if (parseInt(x.style.right) <= 0) {
+            tx = speed;
+            bounces++;
+          }
+          if (bounces == 50) {
+            clearInterval(phase2);
+            r();
+          }
+        }, 10);
+      });
     }
   </script>
 </html>
