@@ -243,6 +243,7 @@
       var immunity = 0;
       var cooldown=0;
       var hasPeashooter = false;
+      var music = new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/megalovania.mp3");
       x.requestPointerLock();
       x.style.top = "50px";
       x.onclick = null;
@@ -280,6 +281,11 @@
   
       //game loop
       setInterval(function() {
+        if (music.duration==music.currentTime) {
+          music.pause();
+          music.currentTime=0;
+          music.play();
+        }
         if (keys["ArrowRight"] && parseInt(heart.style.left) < window.innerWidth - 32) {
           heart.style.left = (parseInt(heart.style.left) + 2) + "px";
         }
@@ -339,7 +345,6 @@
       showText(document.getElementById("ptitle"), "X bossfight");
       bossbar.style.width = "500px";
       bosshp.style.width = "500px";
-      var music = new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/megalovania.mp3");
       music.play();
       var speed = 3;
       var tx = speed;
@@ -490,8 +495,6 @@
       });
       showText(body, "Well, I can spin too!!");
       await sleep(2000);
-      showText(body, "Time to bust out my SERIOUS moves!");
-      await sleep(2000);
       showText(rattus, "Uh oh...");
       await sleep(1000);
       x.style.transition="transform 10s linear";
@@ -501,8 +504,8 @@
       var x3=x.cloneNode(true);
       document.getElementById("info").appendChild(x2);
       document.getElementById("info").appendChild(x3);
-      x2.style.transition="transform 5s linear";
-      x3.style.transition="transform 5s linear";
+      x2.style.transition="transform 5.1s linear";
+      x3.style.transition="transform 5.1s linear";
       setTimeout(function() {
         x2.style.transform="rotateY(7200deg)";
         x3.style.transform="rotateY(7200deg)";
