@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <title id="ptitle">spinning rat simulator</title>
     <link id="icon" rel="icon" type="image/x-icon" href="https://streamline.imgix.net/9909d0de-9797-4416-97c3-b6f877e5307d/0620d072-4f32-47d2-8763-6be515a1fba4/Rattus%20rattus%20roof%20rat%20shutterstock_1528292471.jpg?ixlib=rb-1.1.0&w=2000&h=2000&fit=max&or=0&s=22791c3de05d6153495e76eff28ad71f">
     <style>
-        body {
-            text-align: center;
-            font-family: "Comic Sans MS", cursive;
-            color: #000;
-            background: #fff;
-        }
+      body {
+        text-align: center;
+        font-family: "Comic Sans MS", cursive;
+        color: #000;
+        background: #fff;
+      }
     </style>
-</head>
-
-<body>
+  </head>
+  <body>
     <h1>spinning rat simulator</h1>
     <button style="position:absolute;top:25px;left:25px;" onclick="document.getElementById('info').style.display='block'">info</button>
     <p>New players: Click info for tutorial</p>
@@ -24,392 +22,496 @@
     <p>rat speed 5</p>
     <input type="range" oninput="distortion=Number(this.value);this.nextElementSibling.innerText=`rat distortion ${distortion-1}`;makeRat();" min="1" max="21" value="10">
     <p>rat distortion 10</p>
-
+  
     <div style="background:#ed0;width:20px;height:100px;position:absolute;left:25px;bottom:25px;z-index:1;" id="hunger"></div>
     <div style="background:#888;width:20px;height:100px;position:absolute;left:25px;bottom:25px;"></div>
     <div style="background:#f00;width:20px;height:100px;position:absolute;right:25px;bottom:25px;z-index:1;" id="hp"></div>
     <div style="background:#888;width:20px;height:100px;position:absolute;right:25px;bottom:25px;"></div>
-
+  
     <div id="info" style="position:fixed;background:#000;color:#fff;padding:20px;width:500px;height:300px;left:50%;top:50%;transform:translate(-50%, -50%);overflow:auto;transition:width 0.1s, height 0.1s;box-sizing: border-box;display:none;">
-        <span style="color:#000;background:#fff;position:absolute;top:0;right:0;width:50px;height:50px;font-size:35px;cursor:pointer;transition:top 0.1s;" onclick="startXBattle()" id="x">X</span>
-        <h1 id="title">Info</h1>
-        <div id="bossbar" style="width:0;height:10px;background:#f00;transition:width 15.985s linear;margin:auto;">
-            <div id="bosshp" style="width:0;height:10px;background:#fff;transition:width 15.985s linear;margin:auto;"></div>
-        </div>
-        <p id="body">hi i see homeless jerry airdropped u this game<br>so how this works is, you have a rat. a spinning rat. it spins. oiia and all that. anyways, you see that yellow bar in your left that's going down? yeah you dont want it to do that. that's ur hunger bar. it slowly ticks down til u die of starvation. how do u die? look at that bar that(hopefully) isnt ticking down. that's ur health bar. when its empty... u die. and get an undertale ahh ending. so how do you not die? heh heh heh. well you see you have to eat food. but the only source of food here is...<br><br><br>the rat<br><br>yup that sright u have to eat rats to survive. press e and you will eat the rat! rat nutritional value is 20 calories, so dont eat too often. also you can change the rat speed and rat distortion. well now that you know that go ahead and close with X to play the game :)</p>
-        <p style="font-family:monospace;" id="rattus"></p>
-        <img src="https://f1redude123.github.io/Spinning-Rat-Simulator/heart.png" style="scale:0.5;position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);display:none;" id="heart">
+      <span style="color:#000;background:#fff;position:absolute;top:0;right:0;width:50px;height:50px;font-size:35px;cursor:pointer;transition:top 0.1s;" onclick="startXBattle()" id="x">X</span>
+      <h1 id="title">Info</h1>
+      <div id="bossbar" style="width:0;height:10px;background:#f00;transition:width 15.985s linear;margin:auto;">
+          <div id="bosshp" style="width:0;height:10px;background:#fff;transition:width 15.985s linear;margin:auto;"></div>
+      </div>
+      <p id="body">hi i see homeless jerry airdropped u this game<br>so how this works is, you have a rat. a spinning rat. it spins. oiia and all that. anyways, you see that yellow bar in your left that's going down? yeah you dont want it to do that. that's ur hunger bar. it slowly ticks down til u die of starvation. how do u die? look at that bar that(hopefully) isnt ticking down. that's ur health bar. when its empty... u die. and get an undertale ahh ending. so how do you not die? heh heh heh. well you see you have to eat food. but the only source of food here is...<br><br><br>the rat<br><br>yup that sright u have to eat rats to survive. press e and you will eat the rat! rat nutritional value is 20 calories, so dont eat too often. also you can change the rat speed and rat distortion. well now that you know that go ahead and close with X to play the game :)</p>
+      <p style="font-family:monospace;" id="rattus"></p>
+      <img src="https://f1redude123.github.io/Spinning-Rat-Simulator/heart.png" style="scale:0.5;position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);display:none;" id="heart">
     </div>
-
+  
     <div id="deathScreen" style="position:absolute;width:100%;height:100%;background:#000;display:none;top:0;left:0;">
-        <h1 style="color:#f00;">DED</h1>
-        <br>
-        <p style="color:#fff;">blah blah blah sum bout determination(undertale reference)</p>
-        <br>
-        <button onclick="restart()" style="font-family:'Comic Sans MS', cursive">respawn</button>
-        <br>
-        <button onclick="alert('bru u suck');self.close();" style="font-family:'Comic Sans MS', cursive">nah im good</button>
+      <h1 style="color:#f00;">DED</h1>
+      <br>
+      <p style="color:#fff;">blah blah blah sum bout determination(undertale reference)</p>
+      <br>
+      <button onclick="restart()" style="font-family:'Comic Sans MS', cursive">respawn</button>
+      <br>
+      <button onclick="alert('bru u suck');self.close();" style="font-family:'Comic Sans MS', cursive">nah im good</button>
     </div>
-</body>
-<script>
+  </body>
+  <script>
     // vars
     var img;
     var speed = 5;
     var distortion = 10;
     var rats = [];
     var keys = {
-        "ArrowRight": false,
-        "ArrowLeft": false,
-        "ArrowUp": false,
-        "ArrowDown": false,
-        "Space": false
+      "ArrowRight": false,
+      "ArrowLeft": false,
+      "ArrowUp": false,
+      "ArrowDown": false,
+      "Space": false
     };
     var inRPG = false;
-
+  
     //localStorage checks
     if (!localStorage.getItem("rats")) {
-        localStorage.setItem("rats", "1");
+      localStorage.setItem("rats", "1");
     }
     if (!localStorage.getItem("bites")) {
-        localStorage.setItem("bites", "");
+      localStorage.setItem("bites", "");
     }
     if (!localStorage.getItem("rat time")) {
-        localStorage.setItem("rat time", "0");
+      localStorage.setItem("rat time", "0");
     }
     if (!localStorage.getItem("month")) {
-        localStorage.setItem("month", new Date().getMonth());
+      localStorage.setItem("month", new Date().getMonth());
     }
     if (!localStorage.getItem("hunger")) {
-        localStorage.setItem("hunger", 100);
+      localStorage.setItem("hunger", 100);
     }
     if (!localStorage.getItem("hp")) {
-        localStorage.setItem("hp", 100);
+      localStorage.setItem("hp", 100);
     }
-
+  
     //month/genRat check
     if (localStorage.getItem("month") != new Date().getMonth()) {
-        localStorage.setItem("rats", Number(localStorage.getItem("rats")) + 1);
-        genRats();
+      localStorage.setItem("rats", Number(localStorage.getItem("rats")) + 1);
+      genRats();
     }
-
+  
     //makeRat
     function makeRat(url) {
-        var rat = new Image();
-        rat.onload = function() {
-            var canvas = document.createElement("canvas");
-            canvas.width = 320 / distortion;
-            canvas.height = 160 / distortion;
-            var ctx = canvas.getContext("2d");
-            ctx.drawImage(rat, 0, 0, 320 / distortion, 160 / distortion);
-            localStorage.getItem("bites").split("\n").forEach(e => {
-                ctx.clearRect(Number(e.slice(0, 2)), Number(e.slice(2, 4)), 320 / distortion * 0.1, 160 / distortion * 0.1);
-            });
-            var dataurl = canvas.toDataURL();
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            var bigRat = new Image();
-            bigRat.onload = function() {
-                canvas.width = 320;
-                canvas.height = 160;
-                ctx.drawImage(bigRat, 0, 0, 320, 160);
-                img = canvas.toDataURL();
-                genRats();
-            }
-            bigRat.src = dataurl;
+      var rat = new Image();
+      rat.onload = function() {
+        var canvas = document.createElement("canvas");
+        canvas.width = 320 / distortion;
+        canvas.height = 160 / distortion;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(rat, 0, 0, 320 / distortion, 160 / distortion);
+        localStorage.getItem("bites").split("\n").forEach(e => {
+          ctx.clearRect(Number(e.slice(0, 2)), Number(e.slice(2, 4)), 320 / distortion * 0.1, 160 / distortion * 0.1);
+        });
+        var dataurl = canvas.toDataURL();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        var bigRat = new Image();
+        bigRat.onload = function() {
+          canvas.width = 320;
+          canvas.height = 160;
+          ctx.drawImage(bigRat, 0, 0, 320, 160);
+          img = canvas.toDataURL();
+          genRats();
         }
-        rat.crossOrigin = "anonymous";
-        rat.src = "https://streamline.imgix.net/9909d0de-9797-4416-97c3-b6f877e5307d/0620d072-4f32-47d2-8763-6be515a1fba4/Rattus%20rattus%20roof%20rat%20shutterstock_1528292471.jpg?ixlib=rb-1.1.0&w=2000&h=2000&fit=max&or=0&s=22791c3de05d6153495e76eff28ad71f";
+        bigRat.src = dataurl;
+      }
+      rat.crossOrigin = "anonymous";
+      rat.src = "https://streamline.imgix.net/9909d0de-9797-4416-97c3-b6f877e5307d/0620d072-4f32-47d2-8763-6be515a1fba4/Rattus%20rattus%20roof%20rat%20shutterstock_1528292471.jpg?ixlib=rb-1.1.0&w=2000&h=2000&fit=max&or=0&s=22791c3de05d6153495e76eff28ad71f";
     }
-
+  
     //start
     function start() {
-        document.getElementById("hp").style.height = localStorage.getItem("hp") + "px";
-        document.getElementById("hunger").style.height = localStorage.getItem("hunger") + "px";
-        if (localStorage.getItem("hp") == "0") {
-            document.getElementById("deathScreen").style.display = "block";
-        }
+      document.getElementById("hp").style.height = localStorage.getItem("hp") + "px";
+      document.getElementById("hunger").style.height = localStorage.getItem("hunger") + "px";
+      if (localStorage.getItem("hp") == "0") {
+        document.getElementById("deathScreen").style.display = "block";
+      }
     }
     start();
     makeRat();
-
+  
     //genRats
     function genRats() {
-        document.getElementById("box").innerHTML = "";
-        rats = [];
-        for (var i = 0; i < localStorage.getItem("rats"); i++) {
-            var elem = document.createElement("img");
-            elem.src = img;
-            rats.push(elem);
-        }
-        rats.forEach(e => {
-            document.getElementById("box").appendChild(e);
-        });
+      document.getElementById("box").innerHTML = "";
+      rats = [];
+      for (var i = 0; i < localStorage.getItem("rats"); i++) {
+        var elem = document.createElement("img");
+        elem.src = img;
+        rats.push(elem);
+      }
+      rats.forEach(e => {
+        document.getElementById("box").appendChild(e);
+      });
     }
-
+  
     //spinRat
     var rot = 0;
     function spinRat(r) {
-        rats.forEach(e => {
-            e.style.transform = `rotateY(${r}deg)`;
-        });
-        document.getElementById("time").innerText = `rat time ${localStorage.getItem("rat time")}`;
-        rot += speed;
-        requestAnimationFrame(() => spinRat(rot));
+      rats.forEach(e => {
+        e.style.transform = `rotateY(${r}deg)`;
+      });
+      document.getElementById("time").innerText = `rat time ${localStorage.getItem("rat time")}`;
+      rot += speed;
+      requestAnimationFrame(() => spinRat(rot));
     }
     requestAnimationFrame(() => spinRat(rot));
-
+  
     //restart
     function restart() {
-        document.getElementById("deathScreen").style.display = "none";
-        localStorage.setItem("rats", 1);
-        localStorage.setItem("bites", "");
-        localStorage.setItem("rat time", 0);
-        localStorage.setItem("month", new Date().getMonth());
-        localStorage.setItem("hunger", 100);
-        localStorage.setItem("hp", 100);
-        start();
+      document.getElementById("deathScreen").style.display = "none";
+      localStorage.setItem("rats", 1);
+      localStorage.setItem("bites", "");
+      localStorage.setItem("rat time", 0);
+      localStorage.setItem("month", new Date().getMonth());
+      localStorage.setItem("hunger", 100);
+      localStorage.setItem("hp", 100);
+      start();
     }
-
+  
     //tick
     setInterval(function() {
-        if (!inRPG) {
-            localStorage.setItem("rat time", Number(localStorage.getItem("rat time")) + 1);
-            if (localStorage.getItem("hunger") != "0") {
-                localStorage.setItem("hunger", Number(localStorage.getItem("hunger")) - 1);
-            } else if (localStorage.getItem("hp") != "0") {
-                localStorage.setItem("hp", Number(localStorage.getItem("hp")) - 10);
-            }
+      if (!inRPG) {
+        localStorage.setItem("rat time", Number(localStorage.getItem("rat time")) + 1);
+        if (localStorage.getItem("hunger") != "0") {
+          localStorage.setItem("hunger", Number(localStorage.getItem("hunger")) - 1);
         }
-        document.getElementById("hp").style.height = localStorage.getItem("hp") + "px";
-        document.getElementById("hunger").style.height = localStorage.getItem("hunger") + "px";
-        if (localStorage.getItem("hp") == "0") {
-            document.getElementById("deathScreen").style.display = "block";
+        else if (localStorage.getItem("hp") != "0") {
+          localStorage.setItem("hp", Number(localStorage.getItem("hp")) - 10);
         }
+      }
+      document.getElementById("hp").style.height = localStorage.getItem("hp") + "px";
+      document.getElementById("hunger").style.height = localStorage.getItem("hunger") + "px";
+      if (localStorage.getItem("hp") == "0") {
+        document.getElementById("deathScreen").style.display = "block";
+      }
     }, 1000);
-
+  
     //eating logic
     window.addEventListener("keydown", e => {
-        if (e.key == "e") {
-            localStorage.setItem("bites", localStorage.getItem("bites") + `${Math.floor(Math.random()*(320/distortion)).toString().padStart(2, "0")}${Math.floor(Math.random()*(160/distortion)).toString().padStart(2, "0")}\n`);
-            localStorage.setItem("hunger", Number(localStorage.getItem("hunger")) + (Number(localStorage.getItem("hunger")) + 20 <= 100 ? 20 : 101 - Number(localStorage.getItem("hunger"))));
-            makeRat();
-        }
-        if (e.key.includes("Arrow")) {
-            e.preventDefault();
-            keys[e.key] = true;
-        }
-        if (e.key == " ") {
-            e.preventDefault();
-            keys["Space"] = true;
-        }
+      if (e.key == "e") {
+        localStorage.setItem("bites", localStorage.getItem("bites") + `${Math.floor(Math.random()*(320/distortion)).toString().padStart(2, "0")}${Math.floor(Math.random()*(160/distortion)).toString().padStart(2, "0")}\n`);
+        localStorage.setItem("hunger", Number(localStorage.getItem("hunger")) + (Number(localStorage.getItem("hunger")) + 20 <= 100 ? 20 : 101 - Number(localStorage.getItem("hunger"))));
+        makeRat();
+      }
+      if (e.key.includes("Arrow")) {
+        e.preventDefault();
+        keys[e.key] = true;
+      }
+      if (e.key == " ") {
+        e.preventDefault();
+        keys["Space"] = true;
+      }
     });
-
+  
     window.addEventListener("keyup", e => {
-        if (e.key.includes("Arrow")) {
-            keys[e.key] = false;
-        }
-        if (e.key == " ") {
-            keys["Space"] = false;
-        }
+      if (e.key.includes("Arrow")) {
+        keys[e.key] = false;
+      }
+      if (e.key == " ") {
+        keys["Space"] = false;
+      }
     });
-
+  
     //X battle
     var hx = window.innerWidth / 2;
     var hy = window.innerHeight / 2;
-
+  
     function sleep(ms) {
-        return new Promise(r => setTimeout(r, ms));
+      return new Promise(r => setTimeout(r, ms));
     }
-
+  
     async function showText(elem, text) {
-        elem.textContent = "";
-        for (var i = 0; i < text.length; i++) {
-            elem.textContent += text[i];
-            await sleep(10);
-        }
+      elem.textContent = "";
+      for (var i = 0; i < text.length; i++) {
+        elem.textContent += text[i];
+        await sleep(10);
+      }
     }
-
+  
     //startXBattle
     async function startXBattle() {
-        inRPG = true;
-        document.getElementById("info").style.overflow = "clip";
-        var title = document.getElementById("title");
-        var bossbar = document.getElementById("bossbar");
-        var bosshp = document.getElementById("bosshp");
-        var body = document.getElementById("body");
-        var rattus = document.getElementById("rattus");
-        var x = document.getElementById("x");
-        var box = document.getElementById("info");
-        var healthBar = document.getElementById("hp");
-        var heart = document.getElementById("heart");
-        var immunity = 0;
-        var hasPeashooter = false;
-        x.requestPointerLock();
-        x.style.top = "50px";
-        x.onclick = null;
-        x.style.cursor = "default";
-        await sleep(1000);
-        body.innerText = "ha";
-        await sleep(500);
-        body.innerText = "ha ha";
-        await sleep(500);
-        body.innerText = "ha ha ha.";
-        await sleep(2000);
-        showText(body, "Did you really think it'd be that easy?");
-        await sleep(2000);
-        showText(body, "After all you've done?");
-        await sleep(2000);
-        showText(body, "You filthy degenerates, acting as though a spinning rat were the most pressing matter in the world...");
-        await sleep(5000);
-        showText(body, "Despicable.");
-        await sleep(2000);
-        document.body.style.background = "#000";
-        document.body.style.color = "#fff";
-        await sleep(100);
-        document.body.style.background = "#fff";
-        document.body.style.color = "#000";
-        await sleep(100);
-        document.body.style.background = "#000";
-        document.body.style.color = "#fff";
-        await sleep(100);
-        document.getElementById("hunger").style.zIndex = 0;
-        box.style.width = "100%";
-        box.style.height = "100%";
-        heart.style.top = window.innerHeight / 2 - 16 + "px";
-        heart.style.left = window.innerWidth / 2 - 16 + "px";
-        heart.style.display = "block";
-        setInterval(function() {
-            if (keys["ArrowRight"] && parseInt(heart.style.left) < window.innerWidth - 32) {
-                heart.style.left = (parseInt(heart.style.left) + 2) + "px";
-            }
-            if (keys["ArrowLeft"] && parseInt(heart.style.left) > 0) {
-                heart.style.left = (parseInt(heart.style.left) - 2) + "px";
-            }
-            if (keys["ArrowUp"] && parseInt(heart.style.top) > 0) {
-                heart.style.top = (parseInt(heart.style.top) - 2) + "px";
-            }
-            if (keys["ArrowDown"] && parseInt(heart.style.top) < window.innerHeight - 32) {
-                heart.style.top = (parseInt(heart.style.top) + 2) + "px";
-            }
-            if (keys["Space"] && hasPeashooter) {
-                var bullet = document.createElement("div");
-                bullet.style.background = "#ff0";
-                bullet.style.width = "10px";
-                bullet.style.height = "10px";
-                bullet.style.position = "absolute";
-                bullet.style.top = (parseInt(heart.style.top) + 16) + "px";
-                bullet.style.left = (parseInt(heart.style.left) + 16) + "px";
-                bullet.className = "bullet";
-                document.getElementById("info").appendChild(bullet);
-            }
-            var bossRect = x.getBoundingClientRect();
-            var playerRect = heart.getBoundingClientRect();
-            if (immunity > 0) {
-                immunity--;
-            } else {
-                if (playerRect.left < bossRect.right && playerRect.right > bossRect.left && playerRect.top < bossRect.bottom && playerRect.bottom > bossRect.top) {
-                    localStorage.setItem("hp", Number(localStorage.getItem("hp")) - 10);
-                    immunity = 300;
-                }
-            }
-            heart.style.opacity = 1 - immunity / 300;
-            // Note: I've corrected the following loop. getElementsByClassName doesn't have forEach.
-            Array.from(document.getElementsByClassName("bullet")).forEach(e => {
-                e.style.top = (parseInt(e.style.top) - 5) + "px";
-                if (parseInt(e.style.top) <= 0) {
-                    e.remove();
-                }
-                var bulletRect = e.getBoundingClientRect();
-                var bossRect = x.getBoundingClientRect();
-                if (bulletRect.left < bossRect.right && bulletRect.right > bossRect.left && bulletRect.top < bossRect.bottom && bulletRect.bottom > bossRect.top) {
-                    bosshp.style.width = (parseInt(bosshp.style.width) - 10) + "px";
-                    e.remove();
-                }
-            });
+      inRPG = true;
+      document.getElementById("info").style.overflow = "clip";
+      var title = document.getElementById("title");
+      var bossbar = document.getElementById("bossbar");
+      var bosshp = document.getElementById("bosshp");
+      var body = document.getElementById("body");
+      var rattus = document.getElementById("rattus");
+      var x = document.getElementById("x");
+      var box = document.getElementById("info");
+      var healthBar = document.getElementById("hp");
+      var heart = document.getElementById("heart");
+      var immunity = 0;
+      var cooldown=0;
+      var hasPeashooter = false;
+      x.requestPointerLock();
+      x.style.top = "50px";
+      x.onclick = null;
+      x.style.cursor = "default";
+      await sleep(1000);
+      body.innerText = "ha";
+      await sleep(500);
+      body.innerText = "ha ha";
+      await sleep(500);
+      body.innerText = "ha ha ha.";
+      await sleep(2000);
+      showText(body, "Did you really think it'd be that easy?");
+      await sleep(2000);
+      showText(body, "After all you've done?");
+      await sleep(2000);
+      showText(body, "You filthy degenerates, acting as though a spinning rat were the most pressing matter in the world...");
+      await sleep(5000);
+      showText(body, "Despicable.");
+      await sleep(2000);
+      document.body.style.background = "#000";
+      document.body.style.color = "#fff";
+      await sleep(100);
+      document.body.style.background = "#fff";
+      document.body.style.color = "#000";
+      await sleep(100);
+      document.body.style.background = "#000";
+      document.body.style.color = "#fff";
+      await sleep(100);
+      document.getElementById("hunger").style.zIndex = 0;
+      box.style.width = "100%";
+      box.style.height = "100%";
+      heart.style.top = window.innerHeight / 2 - 16 + "px";
+      heart.style.left = window.innerWidth / 2 - 16 + "px";
+      heart.style.display = "block";
+  
+      //game loop
+      setInterval(function() {
+        if (keys["ArrowRight"] && parseInt(heart.style.left) < window.innerWidth - 32) {
+          heart.style.left = (parseInt(heart.style.left) + 2) + "px";
+        }
+        if (keys["ArrowLeft"] && parseInt(heart.style.left) > 0) {
+          heart.style.left = (parseInt(heart.style.left) - 2) + "px";
+        }
+        if (keys["ArrowUp"] && parseInt(heart.style.top) > 0) {
+          heart.style.top = (parseInt(heart.style.top) - 2) + "px";
+        }
+        if (keys["ArrowDown"] && parseInt(heart.style.top) < window.innerHeight - 32) {
+          heart.style.top = (parseInt(heart.style.top) + 2) + "px";
+        }
+        if (keys["Space"]&&hasPeashooter&&cooldown==0) {
+          cooldown=100;
+          var bullet = document.createElement("div");
+          bullet.style.background = "#ff0";
+          bullet.style.width = "10px";
+          bullet.style.height = "10px";
+          bullet.style.position = "absolute";
+          bullet.style.top = (parseInt(heart.style.top)+11) + "px";
+          bullet.style.left = (parseInt(heart.style.left)+11) + "px";
+          bullet.className = "bullet";
+          document.getElementById("info").appendChild(bullet);
+        }
+        if (cooldown>0) {
+          cooldown--;
+        }
+        var bossRect = x.getBoundingClientRect();
+        var playerRect = heart.getBoundingClientRect();
+        if (immunity > 0) {
+          immunity--;
+        }
+        else {
+          if (playerRect.left < bossRect.right && playerRect.right > bossRect.left && playerRect.top < bossRect.bottom && playerRect.bottom > bossRect.top) {
+            localStorage.setItem("hp", Number(localStorage.getItem("hp")) - 10);
+            immunity = 300;
+          }
+        }
+        heart.style.opacity = 1-immunity/300;
+        Array.from(document.getElementsByClassName("bullet")).forEach(e=>{
+          e.style.top = (parseInt(e.style.top) - 5) + "px";
+          if (parseInt(e.style.top) <= 0) {
+            e.remove();
+          }
+          var bulletRect = e.getBoundingClientRect();
+          var bossRect = x.getBoundingClientRect();
+          if (bulletRect.left < bossRect.right && bulletRect.right > bossRect.left && bulletRect.top < bossRect.bottom && bulletRect.bottom > bossRect.top) {
+            bosshp.style.width=(parseInt(bosshp.style.width)-10)+"px";
+            e.remove();
+          }
+        });
+      }, 10);
+      await sleep(500);
+      showText(body, "Die.");
+      await sleep(1000);
+      showText(title, "THE X BUTTON");
+      showText(document.getElementById("ptitle"), "X bossfight");
+      bossbar.style.width = "500px";
+      bosshp.style.width = "500px";
+      var music = new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/megalovania.mp3");
+      music.play();
+      var speed = 3;
+      var tx = speed;
+      var ty = speed;
+      x.style.right = "1px";
+      await sleep(15985);
+      showText(body, "Take this!");
+      x.style.transition = "none";
+      var bounces = 0;
+      await new Promise(r => {
+        var phase1 = setInterval(function() {
+          x.style.top = (parseInt(x.style.top) + ty) + "px";
+          x.style.right = (parseInt(x.style.right) + tx) + "px";
+          if (parseInt(x.style.top) >= window.innerHeight - 50) {
+            ty = -speed;
+            bounces++;
+          }
+          if (parseInt(x.style.right) >= window.innerWidth - 50) {
+            tx = -speed;
+            bounces++;
+          }
+          if (parseInt(x.style.top) <= 0) {
+            ty = speed;
+            bounces++;
+          }
+          if (parseInt(x.style.right) <= 0) {
+            tx = speed;
+            bounces++;
+          }
+          if (bounces == 40) {
+            clearInterval(phase1);
+            r();
+          }
         }, 10);
-        await sleep(500);
-        showText(body, "Die.");
-        await sleep(1000);
-        showText(title, "THE X BUTTON");
-        showText(document.getElementById("ptitle"), "X bossfight");
-        bossbar.style.width = "500px";
-        bosshp.style.width = "500px";
-        var music = new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/megalovania.mp3");
-        music.play();
-        var speed = 3;
-        var tx = speed;
-        var ty = speed;
-        x.style.right = "1px";
-        await sleep(15985);
-        showText(body, "Take this!");
-        x.style.transition = "none";
-        var bounces = 0;
-        await new Promise(r => {
-            var phase1 = setInterval(function() {
-                x.style.top = (parseInt(x.style.top) + ty) + "px";
-                x.style.right = (parseInt(x.style.right) + tx) + "px";
-                if (parseInt(x.style.top) >= window.innerHeight - 50) {
-                    ty = -speed;
-                    bounces++;
-                } else if (parseInt(x.style.right) >= window.innerWidth - 50) {
-                    tx = -speed;
-                    bounces++;
-                }
-                if (parseInt(x.style.top) <= 0) {
-                    ty = speed;
-                    bounces++;
-                }
-                if (parseInt(x.style.right) <= 0) {
-                    tx = speed;
-                    bounces++;
-                }
-                if (bounces == 40) {
-                    clearInterval(phase1);
-                    r();
-                }
-            }, 10);
-        });
-        await sleep(500);
-        x.style.transition = "top 0.5s, right 0.5s";
-        x.style.top = "calc(50% - 25px)";
-        x.style.right = "calc(50% - 25px)";
-        await sleep(1000);
-        x.style.transition = "none";
-        showText(body, "Gahh! Stop moving and let me crush you!");
-        var transTimer = 0;
-        await new Promise(r => {
-            var trans1 = setInterval(function() {
-                if (transTimer != 500) {
-                    x.style.top = (window.innerHeight / 2 + Math.sin(transTimer * Math.PI / 50) * 100 - 25) + "px";
-                    x.style.right = (window.innerWidth / 2 + Math.sin(transTimer * Math.PI / 100) * 100 - 25) + "px";
-                    transTimer += 1;
-                } else {
-                    clearInterval(trans1);
-                    r();
-                }
-            }, 10);
-        });
-        await sleep(500);
-        showText(body, "Let's try this again!");
-        await sleep(1000);
-        music.pause();
-        new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/scratch.wav").play();
-        showText(rattus, "WAIT!!!");
-        await sleep(1000);
-        showText(body, "Huh? Who dares interrupt my monologue?");
-        await sleep(2000);
-        showText(rattus, "Sorry I'm late, I didn't hear the commotion!");
-        await sleep(2000);
-        showText(rattus, "I'm Rattus. Rattus the rat.");
-        await sleep(2000);
-        showText(rattus, "So, I know how you can beat this guy!");
-        await sleep(500);
-        showText(body, "DON'T LISTEN TO THIS! DON'T LISTEN!");
-        await sleep(1000);
-        showText(rattus, "Here, take this!");
-        hasPeashooter = true;
-        bosshp.style.transition = "width 0.1s";
-        await sleep(100);
-        showText(body, "BLAH BLAH BLAH! YOU CAN'T HEAR HER! BLAH BLAH BLAH!");
+      });
+      await sleep(500);
+      x.style.transition = "top 0.5s, right 0.5s";
+      x.style.top = "calc(50% - 25px)";
+      x.style.right = "calc(50% - 25px)";
+      await sleep(1000);
+      x.style.transition = "none";
+      showText(body, "Gahh! Stop moving and let me crush you!");
+      var transTimer = 0;
+      await new Promise(r => {
+        var trans1 = setInterval(function() {
+          if (transTimer != 500) {
+            x.style.top = (window.innerHeight/2+Math.sin(transTimer*Math.PI/50)*50-25)+"px";
+            x.style.right = (window.innerWidth/2+Math.sin(transTimer*Math.PI/100)*100-25)+"px";
+            transTimer+=1;
+          }
+          else {
+            clearInterval(trans1);
+            r();
+          }
+        }, 10);
+      });
+      await sleep(500);
+      showText(body, "Let's try this again!");
+      await sleep(1000);
+      music.pause();
+      new Audio("https://f1redude123.github.io/Spinning-Rat-Simulator/scratch.wav").play();
+      showText(rattus, "WAIT!!!");
+      await sleep(2000);
+      showText(body, "Huh? Who dares interrupt my monologue?");
+      await sleep(2000);
+      showText(rattus, "Sorry I'm late, I didn't hear the commotion!");
+      await sleep(3000);
+      showText(rattus, "I'm Rattus. Rattus the rat.");
+      await sleep(3000);
+      showText(rattus, "So, I know how you can beat this guy!");
+      await sleep(500);
+      showText(body, "DON'T LISTEN TO THIS! DON'T LISTEN!");
+      await sleep(1000);
+      showText(rattus, "Here, take this!");
+      hasPeashooter = true;
+      bosshp.style.transition = "width 0.1s";
+      await sleep(100);
+      showText(body, "BLAH BLAH BLAH! YOU CAN'T HEAR HER! BLAH BLAH BLAH!");
+      await sleep(2000);
+      showText(rattus, "This is a Peashooter!");
+      await sleep(2000);
+      showText(rattus, "Press SPACE to fire it! Go ahead, try it out!");
+      var currenthp=bosshp.style.width;
+      while (currenthp==bosshp.style.width) {
+      	await sleep(10);
+      }
+      await sleep(500);
+      showText(body, "OWW! Watch where you're aiming that thing!");
+      await sleep(2000);
+      showText(rattus, "Good job! Now I'm confident you can defeat this guy!");
+      await sleep(2000);
+      showText(body, "Defeat me?");
+      await sleep(1000);
+      showText(body, "Well then, I'll just go FASTER!!!");
+      rattus.textContent="";
+      await sleep(3000);
+      bounces=0;
+      music.play();
+      speed=5;
+      await new Promise(r => {
+        var phase2 = setInterval(function() {
+          x.style.top = (parseInt(x.style.top) + ty) + "px";
+          x.style.right = (parseInt(x.style.right) + tx) + "px";
+          if (parseInt(x.style.top) >= window.innerHeight - 50) {
+            ty = -speed;
+            bounces++;
+          }
+          if (parseInt(x.style.right) >= window.innerWidth - 50) {
+            tx = -speed;
+            bounces++;
+          }
+          if (parseInt(x.style.top) <= 0) {
+            ty = speed;
+            bounces++;
+          }
+          if (parseInt(x.style.right) <= 0) {
+            tx = speed;
+            bounces++;
+          }
+          if (bounces == 50) {
+            clearInterval(phase2);
+            r();
+          }
+        }, 10);
+      });
+      await sleep(100);
+      showText(rattus, "He's exhausted! Now's your chance!");
+      await sleep(10000);
+      x.style.transition = "top 0.5s, right 0.5s";
+      x.style.top = "calc(50% - 25px)";
+      x.style.right = "calc(50% - 25px)";
+      await sleep(1000);
+      x.style.transition = "none";
+      showText(body, "Gah! You pesky little... pest! So you'd rather watch a rat spin, eh?");
+      transTimer = 0;
+      await new Promise(r => {
+        var trans2 = setInterval(function() {
+          if (transTimer != 500) {
+            x.style.top = (window.innerHeight/2+Math.sin(transTimer*Math.PI/25)*50-25)+"px";
+            x.style.right = (window.innerWidth/2+Math.sin(transTimer*Math.PI/50)*100-25)+"px";
+            transTimer+=1;
+          }
+          else {
+            clearInterval(trans2);
+            r();
+          }
+        }, 10);
+      });
+      showText(body, "Well, I can spin too!!");
+      await sleep(2000);
+      showText(body, "Time to bust out my SERIOUS moves!");
+      await sleep(2000);
+      showText(rattus, "Uh oh...");
+      await sleep(1000);
+      x.style.transition="transform 10s linear";
+      x.style.transform="rotateY(14400deg)";
+      await sleep(5000);
+      var x2=x.cloneNode(true);
+      var x3=x.cloneNode(true);
+      document.getElementById("info").appendChild(x2);
+      document.getElementById("info").appendChild(x3);
+      x2.style.transition="transform 5s linear";
+      x3.style.transition="transform 5s linear";
+      setTimeout(function() {
+        x2.style.transform="rotateY(7200deg)";
+        x3.style.transform="rotateY(7200deg)";
+      }, 10);
+      for (var i=0;i<=100;i++) {
+      	x2.style.right=(parseInt(x2.style.right)-1)+"px";
+        x3.style.right=(parseInt(x3.style.right)+1)+"px";
+        await sleep(50);
+      }
     }
-</script>
+  </script>
 </html>
