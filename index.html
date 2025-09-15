@@ -504,8 +504,8 @@
       var x3=x.cloneNode(true);
       document.getElementById("info").appendChild(x2);
       document.getElementById("info").appendChild(x3);
-      x2.style.transition="transform 5.1s linear";
-      x3.style.transition="transform 5.1s linear";
+      x2.style.transition="transform 5.1s linear, opacity 1s";
+      x3.style.transition="transform 5.1s linear, opacity 1s";
       setTimeout(function() {
         x2.style.transform="rotateY(7200deg)";
         x3.style.transform="rotateY(7200deg)";
@@ -517,14 +517,18 @@
       }
       await sleep(2000);
       showText(body, "Prepare yourself!");
+      var tx2=1;
+      var ty2=1;
+      var tx3=-1;
+      var ty3=1;
       await new Promise(r => {
-        var phase2 = setInterval(function() {
+        var phase3 = setInterval(function() {
           x.style.top = (parseInt(x.style.top) + ty) + "px";
           x.style.right = (parseInt(x.style.right) + tx) + "px";
-          x2.style.top = (parseInt(x2.style.top) + ty) + "px";
-          x2.style.right = (parseInt(x2.style.right) + tx) + "px";
-          x3.style.top = (parseInt(x3.style.top) + ty) + "px";
-          x3.style.right = (parseInt(x3.style.right) + tx) + "px";
+          x2.style.top = (parseInt(x2.style.top) + ty2) + "px";
+          x2.style.right = (parseInt(x2.style.right) + tx2) + "px";
+          x3.style.top = (parseInt(x3.style.top) + ty3) + "px";
+          x3.style.right = (parseInt(x3.style.right) + tx3) + "px";
           if (parseInt(x.style.top) >= window.innerHeight - 50) {
             ty = -speed;
             bounces++;
@@ -541,12 +545,47 @@
             tx = speed;
             bounces++;
           }
+          if (parseInt(x2.style.top) >= window.innerHeight - 50) {
+            ty2 = -speed;
+            bounces++;
+          }
+          if (parseInt(x2.style.right) >= window.innerWidth - 50) {
+            tx2 = -speed;
+            bounces++;
+          }
+          if (parseInt(x2.style.top) <= 0) {
+            ty2 = speed;
+            bounces++;
+          }
+          if (parseInt(x2.style.right) <= 0) {
+            tx2 = speed;
+            bounces++;
+          }
+          if (parseInt(x3.style.top) >= window.innerHeight - 50) {
+            ty3 = -speed;
+            bounces++;
+          }
+          if (parseInt(x3.style.right) >= window.innerWidth - 50) {
+            tx3 = -speed;
+            bounces++;
+          }
+          if (parseInt(x3.style.top) <= 0) {
+            ty3 = speed;
+            bounces++;
+          }
+          if (parseInt(x3.style.right) <= 0) {
+            tx3 = speed;
+            bounces++;
+          }
           if (bounces == 50) {
-            clearInterval(phase2);
+            clearInterval(phase3);
             r();
           }
         }, 10);
       });
+      await sleep(500);
+      x2.style.opacity=0%;
+      x2.style.opacity=0%;
     }
   </script>
 </html>
