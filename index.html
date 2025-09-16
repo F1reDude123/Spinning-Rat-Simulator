@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
   <head>
@@ -446,6 +447,8 @@
       bounces=0;
       music.play();
       speed=5;
+      tx=5;
+      ty=5;
       await new Promise(r => {
         var phase2 = setInterval(function() {
           x.style.top = (parseInt(x.style.top) + ty) + "px";
@@ -466,7 +469,7 @@
             tx = speed;
             bounces++;
           }
-          if (bounces == 50) {
+          if (bounces == 60) {
             clearInterval(phase2);
             r();
           }
@@ -519,17 +522,14 @@
       }
       await sleep(2000);
       showText(body, "Ha ha ha!");
-      showText(document.getElementById("body2"), "Ha ha ha!");
-      showText(document.getElementById("body3"), "Ha ha ha!");
       await sleep(1000);
       showText(body, "Try running now!");
-      showText(document.getElementById("body2"), "Try running now!");
-      showText(document.getElementById("body3"), "Try running now!");
       await sleep(1000);
-      var tx2=1;
-      var ty2=1;
-      var tx3=-1;
-      var ty3=1;
+      var tx2=5;
+      var ty2=5;
+      var tx3=-5;
+      var ty3=5;
+      bounces=0;
       await new Promise(r => {
         var phase3 = setInterval(function() {
           x.style.top = (parseInt(x.style.top) + ty) + "px";
@@ -556,37 +556,29 @@
           }
           if (parseInt(x2.style.top) >= window.innerHeight - 50) {
             ty2 = -speed;
-            bounces++;
           }
           if (parseInt(x2.style.right) >= window.innerWidth - 50) {
             tx2 = -speed;
-            bounces++;
           }
           if (parseInt(x2.style.top) <= 0) {
             ty2 = speed;
-            bounces++;
           }
           if (parseInt(x2.style.right) <= 0) {
             tx2 = speed;
-            bounces++;
           }
           if (parseInt(x3.style.top) >= window.innerHeight - 50) {
             ty3 = -speed;
-            bounces++;
           }
           if (parseInt(x3.style.right) >= window.innerWidth - 50) {
             tx3 = -speed;
-            bounces++;
           }
           if (parseInt(x3.style.top) <= 0) {
             ty3 = speed;
-            bounces++;
           }
           if (parseInt(x3.style.right) <= 0) {
             tx3 = speed;
-            bounces++;
           }
-          if (bounces == 50) {
+          if (bounces == 60) {
             clearInterval(phase3);
             r();
           }
@@ -594,7 +586,84 @@
       });
       await sleep(500);
       x2.style.opacity="0%";
-      x2.style.opacity="0%";
+      x3.style.opacity="0%";
+      await sleep(1000);
+      x2.remove();
+      x3.remove();
+      await sleep(1000);
+      x.style.transition="top 2s, right 2s";
+      x.style.top = "calc(50% - 25px)";
+      x.style.right = "calc(50% - 25px)";
+      await sleep(3000);
+      showText(body, "*huff* *puff* So... tired...");
+      x.style.transition="none";
+      transTimer = 0;
+      await new Promise(r => {
+        var trans3 = setInterval(function() {
+          if (transTimer != 600) {
+            x.style.top = (window.innerHeight/2+Math.sin(transTimer*Math.PI/100)*50-25)+"px";
+            x.style.right = (window.innerWidth/2+Math.sin(transTimer*Math.PI/200)*100-25)+"px";
+            transTimer+=1;
+          }
+          else {
+            clearInterval(trans3);
+            r();
+          }
+        }, 10);
+      });
+      await sleep(1000);
+      x.style.transition="top 0.5s, transform 0.5s";
+      x.style.top=(window.innerHeight/2)+"px";
+      x.style.transform="rotateX(-90deg)";
+      await sleep(500);
+      bosshp.style.width="0px";
+      await sleep(2000);
+      music.pause();
+      x.remove();
+      title.remove();
+      bossbar.remove();
+      body.remove();
+      await sleep(1000);
+      showText(rattus, "Phew! He's gone...");
+      await sleep(2000);
+      showText(rattus, "Sorry about that, I didn't get a chance to introduce myself!");
+      await sleep(3000);
+      showText(rattus, "I'm Rattus. Rattus the rat. But you already knew that.");
+      await sleep(3000);
+      showText(rattus, "I'm a scientist. I do science.");
+      await sleep(2000);
+      showText(rattus, "Oh, hold on a minute! Let me just...");
+      await sleep(2000);
+      var rattusIcon=document.createElement("img");
+      rattusIcon.src="https://f1redude123.github.io/Spinning-Rat-Simulator/rattus.png";
+      rattusIcon.style.position="absolute";
+      rattusIcon.style.top=heart.style.top;
+      rattusIcon.style.left="-32px";
+      rattusIcon.style.transition="left 3s linear";
+      document.getElementById("info").appendChild(rattusIcon);
+      rattusIcon.style.left=(window.innerWidth-parseInt(heart.style.left)-50)+"px";
+      await sleep(4000);
+      showText(rattus, "Hi! I'm Rattus. Rattus the rat. Geez, that's the third time I've said that.");
+      await sleep(3000);
+      showText(rattus, "So, that guy you just fought? He's been hiding in the inner layer of the outer layer of this game for quite a while now, trying to catch new players...");
+      await sleep(5000);
+      showText(rattus, "And when you came along, he thought he'd finally had his chance...");
+      await sleep(3000);
+      showText(rattus, "But you wore him out! Good job!");
+      await sleep(2000);
+      showText(rattus, "Now, you have two choices...");
+      await sleep(2000);
+      showText(rattus, "Actually, for the moment, you only have one:");
+      await sleep(2000);
+      showText(rattus, "Refresh the page.");
+      await sleep(2000);
+      showText(rattus, "Yeah, I know, I know, but the creator worked really hard on just this bossfight! He's tired!");
+      await sleep(3000);
+      showText(rattus, "In a few months, the rest of the game should be ready. Just be patient, please.");
+      await sleep(2000);
+      showText(rattus, "Alright, now you've heard this, I'm going to go ahead and refresh the page, OK?");
+      await sleep(2000);
+      window.location.reload();
     }
   </script>
 </html>
