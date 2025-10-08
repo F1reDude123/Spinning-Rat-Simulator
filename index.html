@@ -90,6 +90,7 @@
     //month/genRat check
     if (localStorage.getItem("month") != new Date().getMonth()) {
       localStorage.setItem("rats", Number(localStorage.getItem("rats")) + 1);
+      localStorage.setItem("month", new Date().getMonth());
       genRats();
     }
   
